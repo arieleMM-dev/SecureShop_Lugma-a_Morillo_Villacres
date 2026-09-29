@@ -1,0 +1,18 @@
+1. # **Actividad 1: activos de Secure Shop**
+
+| Activo | Tipo | Consecuencia de acceso no autorizado,modificado o indisponible |
+| :---: | :---: | ----- |
+| Información personal y de contacto de los usuarios | Información | En caso de que la información haya sido modificada los perfiles podrían contener direcciones o contactos erróneos, lo que afectaría la atención y la entrega de pedidos. |
+| Credenciales de acceso y sus representaciones protegidas | Información | En caso de que  que tener un acceso no autorizado un atacante podría intentar tomar cuentas o reutilizar credenciales expuestas en otros sistemas, para afectar la integridad de los mismos  |
+| Catálogo de productos, descripciones y precios | Datos | En caso de que este activo sea modificado se mostrarían productos, descripciones o precios falsos; los clientes podrían realizar pedidos con información incorrecta. |
+| Registros de pedidos y su estado | Datos | En caso de que el activo no este disponible  Los clientes y el personal no podrían consultar ni procesar pedidos. |
+| Servicio de usuarios | Servicio | En el caso de que el activo no este disponible el registro, la autenticación o la gestión de perfiles dejarían de funcionar. |
+| Servicio de productos | Servicio |  Una alteración de su lógica podría publicar información incorrecta o aceptar cambios de catálogo no autorizados.  |
+| Servicio de pedidos | Servicio | Podrían consultarse o ejecutarse operaciones sobre pedidos ajenos. Una alteración de su lógica podría crear pedidos incorrectos o cambiar sus estados sin autorización. No se podrían crear, consultar ni actualizar pedidos. |
+| Punto de entrada común (API Gateway) | Servicio | En caso de acceso no autorizado un atacante podría usar rutas internas expuestas por error o eludir controles de entrada mal configurados. Cambios en rutas o reglas de acceso podrían dirigir solicitudes al servicio equivocado o permitir operaciones restringidas. Los clientes perderían el acceso a los microservicios aunque estos siguieran operativos.  |
+| Código fuente de los microservicios y del punto de entrada | Software | Se podrían descubrir detalles de implementación que ayuden a buscar fallas; cualquier secreto incluido por error también quedaría expuesto. Podría incorporarse código malicioso o defectuoso que afecte a los despliegues posteriores. El equipo no podría revisar, corregir ni desplegar nuevas versiones desde el repositorio. |
+| Base de datos de usuarios | Infraestructura | Se podría acceder directamente a la información de cuentas almacenada. Se podrían alterar o borrar registros de usuarios, afectando la identidad y la integridad de las cuentas. El servicio de usuarios no podría recuperar ni guardar cuentas. |
+| Base de datos de productos | Infraestructura | Se podría consultar directamente información del catálogo almacenada, incluso la no expuesta al público. Se podrían alterar o borrar productos y precios sin pasar por las reglas del servicio. El servicio de productos no podría consultar ni actualizar el catálogo. |
+| Base de datos de pedidos | Infraestructura | En caso de modificación se podrían alterar o borrar pedidos y estados, perdiendo la trazabilidad de las operaciones. El servicio de pedidos no podría registrar ni recuperar pedidos. |
+| Configuración de despliegue y comunicación entre servicios | Información | En caso de un acceso no autorizado, se revelarían direcciones internas, parámetros de conexión o secretos si estuvieran guardados allí.  En caso de indisponibilidad, si la configuración necesaria no estuviera disponible, los servicios podrían fallar al iniciar o comunicarse. |
+
