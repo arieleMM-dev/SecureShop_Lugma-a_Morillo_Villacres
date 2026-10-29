@@ -1,0 +1,23 @@
+# Dependencias y resultados generados de las aplicaciones
+node_modules/
+dist/
+build/
+coverage/
+.nyc_output/
+*.tsbuildinfo
+
+# Configuración privada y claves
+.env
+.env.*
+!.env.example
+!.env.sample
+!example.env.dist
+*.pem
+*.key
+
+# Archivos locales y temporales
+.DS_Store
+Thumbs.db
+*.log
+.temp/
+.tmp/
