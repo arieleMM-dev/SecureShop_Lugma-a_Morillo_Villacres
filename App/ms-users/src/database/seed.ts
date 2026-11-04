@@ -32,7 +32,7 @@ async function seed() {
         'Gómez Ruiz',
         'mgomez',
         '0991000002',
-        ['CLIENTE'],
+        ['USER'],
       ],
       [
         '0503495350',
@@ -40,7 +40,7 @@ async function seed() {
         'Vega Torres',
         'cvega',
         '0991000003',
-        ['CLIENTE', 'OPERADOR'],
+        ['USER', 'ANALYST'],
       ],
       [
         '1102345673',
@@ -48,7 +48,7 @@ async function seed() {
         'Mendoza Silva',
         'amendoza',
         '0991000004',
-        ['OPERADOR'],
+        ['ANALYST'],
       ],
       [
         '0912345675',
@@ -56,13 +56,13 @@ async function seed() {
         'Castro Molina',
         'lcastro',
         '0991000005',
-        ['CLIENTE'],
+        ['USER'],
       ],
     ] as const;
     const hash = await argon2.hash(password, { type: argon2.argon2id });
     await app.get(DataSource).transaction(async (manager) => {
       const roles = new Map<string, Role>();
-      for (const rol of ['ADMIN', 'CLIENTE', 'OPERADOR']) {
+      for (const rol of ['ADMIN', 'USER', 'ANALYST']) {
         let role = await manager.findOne(Role, {
           where: { rol },
           withDeleted: true,
@@ -73,7 +73,11 @@ async function seed() {
           );
         role ??= await manager.save(
           Role,
-          manager.create(Role, { rol, estado: true }),
+          manager.create(Role, {
+            rol,
+            description: 'Rol del parcial: ' + rol,
+            estado: true,
+          }),
         );
         roles.set(rol, role);
       }
@@ -116,7 +120,7 @@ async function seed() {
       }
     });
     console.log(
-      'Seed completado: jperez (ADMIN), mgomez (CLIENTE), cvega (CLIENTE/OPERADOR), amendoza (OPERADOR), lcastro (CLIENTE). Clave: SEED_PASSWORD local.',
+      'Seed completado: jperez (ADMIN), mgomez (USER), cvega (USER/ANALYST), amendoza (ANALYST), lcastro (USER). Clave: SEED_PASSWORD local.',
     );
   } finally {
     await app.close();

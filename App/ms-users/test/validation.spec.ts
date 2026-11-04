@@ -6,7 +6,10 @@ import { envSchema } from '../src/config/env.schema.js';
 
 describe('Validación del taller', () => {
   it.each(['admin', 'Admin', ' ADMIN '])('normaliza %s', async (rol) => {
-    const dto = plainToInstance(CreateRoleDto, { rol });
+    const dto = plainToInstance(CreateRoleDto, {
+      rol,
+      description: 'Rol de prueba',
+    });
     expect(dto.rol).toBe('ADMIN');
     expect(await validate(dto)).toHaveLength(0);
   });
@@ -20,14 +23,14 @@ describe('Validación del taller', () => {
       await validate(plainToInstance(UpdateRoleDto, { estado: false })),
     ).toHaveLength(0);
   });
-  it('rechaza clave JWT corta', () => {
+  it('rechaza credencial de servicio corta', () => {
     expect(
       envSchema.safeParse({
         DB_HOST: '127.0.0.1',
         DB_USERNAME: 'test',
         DB_PASSWORD: '0123456789abcdef',
         DB_DATABASE: 'test',
-        JWT_SECRET: 'corta',
+        STEGO_SERVICE_TOKEN: 'corta',
       }).success,
     ).toBe(false);
   });

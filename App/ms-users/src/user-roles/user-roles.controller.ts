@@ -37,7 +37,7 @@ export class UserRolesController {
   }
 
   @Get('user/:userId')
-  @Roles('ADMIN', 'OPERADOR')
+  @Roles('ADMIN')
   findByUser(
     @Param(
       'userId',
@@ -50,26 +50,12 @@ export class UserRolesController {
     return this.userRolesService.findByUser(userId);
   }
 
-  @Delete(':userId/:roleId')
+  @Delete(':id')
   @Roles('ADMIN')
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(
-    @Param(
-      'userId',
-      new ParseUUIDPipe({
-        version: '4',
-      }),
-    )
-    userId: string,
-
-    @Param(
-      'roleId',
-      new ParseUUIDPipe({
-        version: '4',
-      }),
-    )
-    roleId: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ): Promise<void> {
-    await this.userRolesService.remove(userId, roleId);
+    await this.userRolesService.remove(id);
   }
 }

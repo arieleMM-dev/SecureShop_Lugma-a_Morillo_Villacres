@@ -1,4 +1,8 @@
-import { ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -6,8 +10,10 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Req,
 } from '@nestjs/common';
 
+import type { AuditedRequest } from '../audit/audit.module.js';
 import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service.js';
 import { Public } from './decorators/public/public.decorator.js';
@@ -15,7 +21,6 @@ import { LoginDto } from './dto/login.dto/login.dto.js';
 import { CurrentUser } from './decorators/current-user/current-user.decorator.js';
 import type { AuthenticatedUser } from './interfaces/authenticated-user/authenticated-user.interface.js';
 
-@ApiBearerAuth()
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -24,6 +29,28 @@ export class AuthController {
    * Ruta pública.
    */
   @Public()
+  @ApiOkResponse({
+    description: 'JWT RS256 y perfil de login',
+    schema: {
+      type: 'object',
+      required: ['accessToken', 'tokenType', 'expiresIn', 'user'],
+      properties: {
+        accessToken: { type: 'string' },
+        tokenType: { type: 'string', enum: ['Bearer'] },
+        expiresIn: { type: 'integer' },
+        user: {
+          type: 'object',
+          properties: {
+            id: { type: 'string', format: 'uuid' },
+            username: { type: 'string' },
+            email: { type: 'string', format: 'email' },
+            roles: { type: 'array', items: { type: 'string' } },
+          },
+        },
+      },
+    },
+  })
+  @ApiUnauthorizedResponse({ description: 'Credenciales inválidas' })
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @Throttle({
@@ -32,11 +59,14 @@ export class AuthController {
       ttl: 60_000,
     },
   })
-  login(
+  async login(
     @Body()
     dto: LoginDto,
+    @Req() req: AuditedRequest,
   ) {
-    return this.authService.login(dto);
+    const result = await this.authService.login(dto);
+    req.auditActorId = result.user.id;
+    return result;
   }
 
   /*
@@ -44,7 +74,20 @@ export class AuthController {
    *
    * No requiere rol particular.
    */
-  @Get('me')
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    description: 'Usuario activo y roles vigentes desde PostgreSQL',
+    schema: {
+      type: 'object',
+      properties: {
+        userId: { type: 'string', format: 'uuid' },
+        username: { type: 'string' },
+        email: { type: 'string', format: 'email' },
+        roles: { type: 'array', items: { type: 'string' } },
+      },
+    },
+  })
+  @Get(['profile', 'me'])
   me(
     @CurrentUser()
     user: AuthenticatedUser,
@@ -52,6 +95,7 @@ export class AuthController {
     return user;
   }
 
+  @ApiBearerAuth()
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
   async logout(

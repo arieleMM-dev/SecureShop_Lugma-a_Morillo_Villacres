@@ -1,0 +1,16 @@
+node_modules
+dist
+.git
+.env
+.env.*
+secrets
+coverage
+info
+test
+*.log
+
+**/*.pem
+**/*.key
+**/*.crt
+**/*.csr
+**/*.srl

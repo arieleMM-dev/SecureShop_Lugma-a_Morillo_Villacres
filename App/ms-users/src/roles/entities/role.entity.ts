@@ -19,7 +19,7 @@ import { UserRole } from '../../user-roles/entities/user-role.entity.js';
 @Index('UQ_roles_rol', ['rol'], {
   unique: true,
 })
-@Check('CHK_roles_canonical', `"rol" ~ '^[A-Z0-9_]{2,50}$'`)
+@Check('CHK_roles_canonical', `"name" ~ '^[A-Z0-9_]{2,50}$'`)
 export class Role {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -27,10 +27,15 @@ export class Role {
   @Column({
     type: 'varchar',
     length: 50,
+    name: 'name',
   })
   rol!: string;
 
+  @Column({ type: 'varchar', length: 500 })
+  description!: string;
+
   @Column({
+    name: 'status',
     type: 'boolean',
     default: true,
   })
@@ -42,13 +47,13 @@ export class Role {
   version!: number;
 
   @CreateDateColumn({
-    name: 'fecha_creacion',
+    name: 'created_at',
     type: 'timestamp',
   })
   fechaCreacion!: Date;
 
   @UpdateDateColumn({
-    name: 'fecha_actualizacion',
+    name: 'updated_at',
     type: 'timestamp',
   })
   fechaActualizacion!: Date;

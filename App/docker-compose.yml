@@ -1,0 +1,92 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "${DB_DATABASE:?Configurar DB_DATABASE}"
+      POSTGRES_USER: "${DB_USERNAME:?Configurar DB_USERNAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD:?Configurar DB_PASSWORD}"
+    volumes:
+      - users_postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [auth-data]
+    security_opt: ["no-new-privileges:true"]
+  auth:
+    build: ./ms-users
+    restart: unless-stopped
+    env_file: ./ms-users/.env
+    environment:
+      NODE_ENV: "${NODE_ENV:-development}"
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      JWT_PRIVATE_KEY_PATH: /app/secrets/jwt-private.pem
+      JWT_PUBLIC_KEY_PATH: /app/secrets/jwt-public.pem
+      AUTH_TLS_CERT_PATH: /app/secrets/auth-tls.crt
+      AUTH_TLS_KEY_PATH: /app/secrets/auth-tls.key
+      PORT: "3001"
+      AUTH_INTERNAL_PORT: "3443"
+      AUTH_BIND_HOST: "0.0.0.0"
+    ports:
+      - "127.0.0.1:${PORT:-3001}:3001"
+      - "127.0.0.1:${AUTH_INTERNAL_PORT:-3443}:3443"
+    volumes:
+      - ./ms-users/secrets/jwt-private.pem:/app/secrets/jwt-private.pem:ro
+      - ./ms-users/secrets/jwt-public.pem:/app/secrets/jwt-public.pem:ro
+      - ./ms-users/secrets/auth-tls.crt:/app/secrets/auth-tls.crt:ro
+      - ./ms-users/secrets/auth-tls.key:/app/secrets/auth-tls.key:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [auth-data, backend-services]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    read_only: true
+    tmpfs: [/tmp]
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:3001/api/v1/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+  stego:
+    build: ./ms-stego
+    restart: unless-stopped
+    env_file: ./ms-stego/.env
+    environment:
+      AUTH_BASE_URL: https://auth:3443
+      AUTH_CA_PATH: /run/auth/ca.crt
+      AUTH_PUBLIC_KEY_PATH: /run/auth/jwt-public.pem
+      AUTH_SERVICE_TOKEN: "${STEGO_SERVICE_TOKEN:?Preparar configuración}"
+      AUTH_JWT_ISSUER: "${JWT_ISSUER:-auth-service}"
+      AUTH_JWT_AUDIENCE: "${JWT_AUDIENCE:-chat-backend}"
+      DATA_DIR: /data
+      REQUIRE_SANDBOX: "true"
+    ports: ["127.0.0.1:${STEGO_PORT:-8000}:8000"]
+    volumes:
+      - ./ms-stego/secrets/jwt-public.pem:/run/auth/jwt-public.pem:ro
+      - ./ms-stego/secrets/ca.crt:/run/auth/ca.crt:ro
+      - stego_data:/data
+    networks: [backend-services]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    read_only: true
+    tmpfs: ["/tmp:size=32m,noexec,nosuid"]
+    mem_limit: 1536m
+    cpus: 2
+    pids_limit: 64
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  users_postgres_data:
+  stego_data:
+networks:
+  auth-data:
+    internal: true
+  backend-services: {}

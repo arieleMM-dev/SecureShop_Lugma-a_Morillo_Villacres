@@ -88,11 +88,8 @@ export class UserRolesService {
     });
   }
 
-  async remove(userId: string, roleId: string): Promise<void> {
-    const result = await this.userRolesRepository.delete({
-      userId,
-      roleId,
-    });
+  async remove(id: string): Promise<void> {
+    const result = await this.userRolesRepository.delete({ id });
 
     if (!result.affected) {
       throw new NotFoundException('La asignación usuario-rol no existe');

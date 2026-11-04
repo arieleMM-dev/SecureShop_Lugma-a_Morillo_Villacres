@@ -1,0 +1,6 @@
+Comando desde App: ms-stego/.venv/Scripts/python.exe -m pytest -q ms-stego/tests -c ms-stego/pytest.ini
+Entorno: Python 3.12, dependencias fijadas en requirements*.txt.
+Salida conservada de ejecución real:
+..............                                                           [100%]
+14 passed in 2.48s
+Verificación adicional: pip check -> No broken requirements found.

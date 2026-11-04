@@ -52,8 +52,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     if (status >= HttpStatus.INTERNAL_SERVER_ERROR) {
       this.logger.error(
-        `${request.method} ${request.url}`,
-        exception instanceof Error ? exception.stack : undefined,
+        `Error interno requestId=${request.requestId ?? 'unknown'}`,
       );
     }
 

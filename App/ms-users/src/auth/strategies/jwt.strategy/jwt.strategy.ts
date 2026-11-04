@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { ConfigService } from '@nestjs/config';
@@ -25,13 +26,15 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
       ignoreExpiration: false,
 
-      secretOrKey: configService.getOrThrow<string>('JWT_SECRET'),
+      secretOrKey: readFileSync(
+        configService.getOrThrow<string>('JWT_PUBLIC_KEY_PATH'),
+      ),
 
       issuer: configService.getOrThrow<string>('JWT_ISSUER'),
 
       audience: configService.getOrThrow<string>('JWT_AUDIENCE'),
 
-      algorithms: ['HS256'],
+      algorithms: ['RS256'],
     });
   }
 

@@ -11,6 +11,8 @@ import { RequestIdMiddleware } from './common/middleware/request-id/request-id.m
 import { AuthModule } from './auth/auth.module.js';
 import { JwtAuthGuard } from './auth/guards/jwt-auth/jwt-auth.guard.js';
 import { RolesGuard } from './auth/guards/roles/roles.guard.js';
+import { AuditModule, AuditMiddleware } from './audit/audit.module.js';
+import { InternalAuthorizationModule } from './internal-authorization/internal-authorization.module.js';
 import { AppController } from './app.controller.js';
 
 @Module({
@@ -70,6 +72,8 @@ import { AppController } from './app.controller.js';
     RolesModule,
     UserRolesModule,
     AuthModule,
+    AuditModule,
+    InternalAuthorizationModule,
   ],
   controllers: [AppController],
   providers: [
@@ -103,6 +107,6 @@ import { AppController } from './app.controller.js';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestIdMiddleware).forRoutes('*');
+    consumer.apply(RequestIdMiddleware, AuditMiddleware).forRoutes('*');
   }
 }

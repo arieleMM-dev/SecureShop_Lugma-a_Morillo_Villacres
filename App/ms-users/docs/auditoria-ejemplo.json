@@ -1,0 +1,122 @@
+[
+  {
+    "request_id": "auth-v2-compose-check",
+    "actor_id": null,
+    "service_id": null,
+    "method": "GET",
+    "route": "/api/v1/auth/profile",
+    "status_code": 401,
+    "action": null,
+    "allowed": null
+  },
+  {
+    "request_id": "auth-v2-compose-check",
+    "actor_id": "24025d08-3e89-4266-94fe-76b9b9e4231c",
+    "service_id": null,
+    "method": "POST",
+    "route": "/api/v1/auth/logout",
+    "status_code": 204,
+    "action": null,
+    "allowed": null
+  },
+  {
+    "request_id": "auth-v2-compose-check",
+    "actor_id": "7b1cd245-2095-4cdb-8f15-70290c97e007",
+    "service_id": "STEGO",
+    "method": "POST",
+    "route": "/internal/authorization/check",
+    "status_code": 200,
+    "action": "steganography.analyze",
+    "allowed": false
+  },
+  {
+    "request_id": "auth-v2-compose-check",
+    "actor_id": "7b1cd245-2095-4cdb-8f15-70290c97e007",
+    "service_id": null,
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "status_code": 200,
+    "action": null,
+    "allowed": null
+  },
+  {
+    "request_id": "auth-v2-compose-check",
+    "actor_id": null,
+    "service_id": null,
+    "method": "POST",
+    "route": "/internal/authorization/check",
+    "status_code": 401,
+    "action": null,
+    "allowed": null
+  },
+  {
+    "request_id": "auth-v2-compose-check",
+    "actor_id": "24025d08-3e89-4266-94fe-76b9b9e4231c",
+    "service_id": "STEGO",
+    "method": "POST",
+    "route": "/internal/authorization/check",
+    "status_code": 200,
+    "action": "steganography.analyze",
+    "allowed": true
+  },
+  {
+    "request_id": "auth-v2-compose-check",
+    "actor_id": "24025d08-3e89-4266-94fe-76b9b9e4231c",
+    "service_id": null,
+    "method": "GET",
+    "route": "/api/v1/auth/profile",
+    "status_code": 200,
+    "action": null,
+    "allowed": null
+  },
+  {
+    "request_id": "auth-v2-compose-check",
+    "actor_id": "24025d08-3e89-4266-94fe-76b9b9e4231c",
+    "service_id": null,
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "status_code": 200,
+    "action": null,
+    "allowed": null
+  },
+  {
+    "request_id": "f7ad8e2c-8055-4e67-b0e9-bbcf58cad2e4",
+    "actor_id": null,
+    "service_id": null,
+    "method": "GET",
+    "route": "/api/v1/health",
+    "status_code": 200,
+    "action": null,
+    "allowed": null
+  },
+  {
+    "request_id": "76e0adae-2926-4038-85f0-aadaae5a86d1",
+    "actor_id": null,
+    "service_id": null,
+    "method": "GET",
+    "route": "/api/v1/health",
+    "status_code": 200,
+    "action": null,
+    "allowed": null
+  },
+  {
+    "request_id": "febc015b-9fe4-4fc7-a4f7-24ffd4adacbe",
+    "actor_id": null,
+    "service_id": null,
+    "method": "GET",
+    "route": "/api/v1/health",
+    "status_code": 200,
+    "action": null,
+    "allowed": null
+  },
+  {
+    "request_id": "bd829964-72d1-4268-a791-2fa2ee5b7f9b",
+    "actor_id": null,
+    "service_id": null,
+    "method": "GET",
+    "route": "/api/v1/health",
+    "status_code": 200,
+    "action": null,
+    "allowed": null
+  }
+]

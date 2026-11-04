@@ -1,3 +1,4 @@
+import { loadJwtKeys } from './key-material.js';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -20,10 +21,18 @@ import { JwtStrategy } from './strategies/jwt.strategy/jwt.strategy.js';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        secret: config.getOrThrow<string>('JWT_SECRET'),
+        ...loadJwtKeys(
+          config.getOrThrow<string>('JWT_PRIVATE_KEY_PATH'),
+          config.getOrThrow<string>('JWT_PUBLIC_KEY_PATH'),
+        ),
+        verifyOptions: {
+          algorithms: ['RS256'],
+          issuer: config.getOrThrow<string>('JWT_ISSUER'),
+          audience: config.getOrThrow<string>('JWT_AUDIENCE'),
+        },
 
         signOptions: {
-          algorithm: 'HS256',
+          algorithm: 'RS256',
           expiresIn: config.get<number>('JWT_EXPIRES_IN_SECONDS') ?? 900,
           issuer: config.getOrThrow<string>('JWT_ISSUER'),
           audience: config.getOrThrow<string>('JWT_AUDIENCE'),
@@ -34,6 +43,6 @@ import { JwtStrategy } from './strategies/jwt.strategy/jwt.strategy.js';
 
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
-  exports: [AuthService, JwtModule],
+  exports: [AuthService, JwtModule, JwtStrategy],
 })
 export class AuthModule {}

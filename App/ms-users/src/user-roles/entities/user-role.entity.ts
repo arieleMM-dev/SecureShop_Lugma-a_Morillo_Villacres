@@ -5,7 +5,8 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
@@ -20,14 +21,18 @@ import { Role } from '../../roles/entities/role.entity.js';
 })
 @Index('IDX_user_roles_user', ['userId'])
 @Index('IDX_user_roles_role', ['roleId'])
+@Unique('UQ_user_roles_pair', ['userId', 'roleId'])
 export class UserRole {
-  @PrimaryColumn({
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
+
+  @Column({
     name: 'user_id',
     type: 'uuid',
   })
   userId!: string;
 
-  @PrimaryColumn({
+  @Column({
     name: 'role_id',
     type: 'uuid',
   })
@@ -52,12 +57,13 @@ export class UserRole {
   role!: Relation<Role>;
 
   @CreateDateColumn({
-    name: 'fecha_asignacion',
+    name: 'assigned_at',
     type: 'timestamp',
   })
   fechaAsignacion!: Date;
 
   @Column({
+    name: 'status',
     type: 'boolean',
     default: true,
   })
@@ -69,7 +75,7 @@ export class UserRole {
   version!: number;
 
   @UpdateDateColumn({
-    name: 'fecha_actualizacion',
+    name: 'updated_at',
     type: 'timestamp',
   })
   fechaActualizacion!: Date;

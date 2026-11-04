@@ -33,10 +33,13 @@ export const envSchema = z.object({
    * JWT
    */
 
-  JWT_SECRET: z
-    .string()
-    .min(32, 'JWT_SECRET debe tener al menos 32 caracteres'),
-
+  JWT_PRIVATE_KEY_PATH: z.string().min(1).default('secrets/jwt-private.pem'),
+  JWT_PUBLIC_KEY_PATH: z.string().min(1).default('secrets/jwt-public.pem'),
+  AUTH_TLS_CERT_PATH: z.string().min(1).default('secrets/auth-tls.crt'),
+  AUTH_TLS_KEY_PATH: z.string().min(1).default('secrets/auth-tls.key'),
+  AUTH_BIND_HOST: z.string().min(1).default('127.0.0.1'),
+  AUTH_INTERNAL_PORT: z.coerce.number().int().min(1).max(65535).default(3443),
+  STEGO_SERVICE_TOKEN: z.string().regex(/^[a-f0-9]{64,}$/),
   JWT_EXPIRES_IN_SECONDS: z.coerce
     .number()
     .int()

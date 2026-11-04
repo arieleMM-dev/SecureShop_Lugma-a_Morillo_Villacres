@@ -24,7 +24,8 @@
     "seed": "npm run build && node dist/database/seed.js",
     "test:integration": "npm run build && node --test test/integration.cjs",
     "env:init": "node scripts/init-env.cjs",
-    "test:docker": "npm run build && node scripts/test-db.cjs"
+    "test:docker": "npm run build && node scripts/test-db.cjs",
+    "docs:openapi": "npm run build && node scripts/export-openapi.cjs"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",

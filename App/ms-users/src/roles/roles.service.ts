@@ -26,6 +26,7 @@ export class RolesService {
     const role = this.rolesRepository.create({
       rol: dto.rol.trim().toUpperCase(),
       estado: dto.estado,
+      description: dto.description,
     });
 
     try {

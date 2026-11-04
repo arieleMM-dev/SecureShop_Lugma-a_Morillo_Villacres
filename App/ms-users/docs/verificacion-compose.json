@@ -1,0 +1,17 @@
+{
+  "fecha_local": "2026-11-02",
+  "entorno": "Compose temporal auth-v2-check, PostgreSQL 18, imagen Node 24",
+  "checks": [
+    "AUTH y PostgreSQL saludables",
+    "API HTTP loopback y HTTPS TLS 1.3",
+    "Certificado comprobado mediante CA local",
+    "Login y perfil",
+    "Decisión ADMIN permitida",
+    "Servicio no autenticado rechazado 401",
+    "USER denegado para análisis",
+    "Logout invalida JWT",
+    "Auditoría sin secretos"
+  ],
+  "resultado": "correcto",
+  "stego_real_probado": false
+}

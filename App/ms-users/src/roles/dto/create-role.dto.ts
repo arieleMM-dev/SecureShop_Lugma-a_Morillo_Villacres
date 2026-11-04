@@ -20,6 +20,12 @@ export class CreateRoleDto {
   @Matches(/^[A-Z0-9_]+$/)
   rol!: string;
 
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
+  @IsString()
+  @MinLength(2)
+  @MaxLength(500)
+  description!: string;
+
   @ValidateIf((_object, value) => value !== undefined)
   @IsBoolean()
   estado?: boolean;

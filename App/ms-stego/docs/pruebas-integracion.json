@@ -1,0 +1,65 @@
+{
+  "executed_at": "2026-11-03T04:25:14.664011+00:00",
+  "tests": [
+    {
+      "test": "T01 APIs y procesos autónomos",
+      "result": "passed"
+    },
+    {
+      "test": "Aislamiento: no root, sin BD AUTH ni clave privada y socket denegado",
+      "result": "passed"
+    },
+    {
+      "test": "T02 contraseña inválida denegada",
+      "result": "passed"
+    },
+    {
+      "test": "T03 JWT ausente manipulado y vencido sin análisis",
+      "result": "passed"
+    },
+    {
+      "test": "T04 USER denegado aun con cabecera de rol falsa",
+      "result": "passed"
+    },
+    {
+      "test": "T05 T06 N:M persistida y duplicado rechazado",
+      "result": "passed"
+    },
+    {
+      "test": "T09 análisis real de control y carga LSB con sandbox",
+      "result": "passed"
+    },
+    {
+      "test": "T10 firma tipo extensión corrupción tamaño y dimensiones",
+      "result": "passed"
+    },
+    {
+      "test": "T11 propiedad de resultados aplicada",
+      "result": "passed"
+    },
+    {
+      "test": "T07 revocación inmediata con mismo JWT",
+      "result": "passed"
+    },
+    {
+      "test": "T08 AUTH caído no ejecuta análisis",
+      "result": "passed"
+    },
+    {
+      "test": "Logout entre microservicios invalida mismo JWT",
+      "result": "passed"
+    },
+    {
+      "test": "T12 auditoría depurada de accesos y análisis",
+      "result": "passed"
+    },
+    {
+      "test": "Persistencia tras reiniciar STEGO",
+      "result": "passed"
+    }
+  ],
+  "passed": 14,
+  "failed": 0,
+  "environment": "Dos imágenes y procesos reales, PostgreSQL 18 y SQLite separados; puertos y volúmenes temporales",
+  "real_stego": true
+}

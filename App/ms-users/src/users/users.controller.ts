@@ -42,7 +42,7 @@ export class UsersController {
   }
 
   @Get()
-  @Roles('ADMIN', 'OPERADOR')
+  @Roles('ADMIN')
   findAll(
     @Query()
     pagination: PaginationQueryDto,
@@ -51,7 +51,7 @@ export class UsersController {
   }
 
   @Get('cedula/:cedula')
-  @Roles('ADMIN', 'OPERADOR')
+  @Roles('ADMIN')
   findByCedula(
     @Param('cedula', CedulaPipe)
     cedula: string,
@@ -60,7 +60,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  @Roles('ADMIN', 'OPERADOR')
+  @Roles('ADMIN')
   findOne(
     @Param(
       'id',

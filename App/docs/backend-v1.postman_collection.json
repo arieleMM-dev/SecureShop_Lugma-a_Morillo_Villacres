@@ -1,0 +1,674 @@
+{
+  "info": {
+    "name": "Backend V1 AUTH + STEGO",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Importar CA local en el cliente. Variables privadas vacías. Ejecutar login y elegir PNG local en multipart. Para T07/T08 seguir docs/PRUEBAS.md y la suite automática; no ejecutar CRUD destructivo sobre datos reales."
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://localhost:3443/api/v1"
+    },
+    {
+      "key": "internal_url",
+      "value": "https://localhost:3443"
+    },
+    {
+      "key": "seed_password",
+      "value": ""
+    },
+    {
+      "key": "new_user_password",
+      "value": ""
+    },
+    {
+      "key": "service_token",
+      "value": ""
+    },
+    {
+      "key": "access_token",
+      "value": ""
+    },
+    {
+      "key": "user_id",
+      "value": ""
+    },
+    {
+      "key": "role_id",
+      "value": ""
+    },
+    {
+      "key": "assignment_id",
+      "value": ""
+    },
+    {
+      "key": "analysis_id",
+      "value": ""
+    },
+    {
+      "key": "owner_id",
+      "value": ""
+    },
+    {
+      "key": "stego_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "analyst_token",
+      "value": ""
+    },
+    {
+      "key": "user_token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "AUTH — operaciones y contrato interno",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/health"
+          }
+        },
+        {
+          "name": "Login ADMIN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"jperez\",\n  \"password\": \"{{seed_password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Login correcto', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) pm.collectionVariables.set('access_token', pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Perfil",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/auth/profile"
+          }
+        },
+        {
+          "name": "Perfil alias me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/auth/me"
+          }
+        },
+        {
+          "name": "Crear usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/users",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cedula\": \"1712345678\",\n  \"nombres\": \"Pedro Andrés\",\n  \"apellidos\": \"Salazar Torres\",\n  \"fechaNacimiento\": \"1993-04-18\",\n  \"username\": \"psalazar\",\n  \"email\": \"psalazar@example.com\",\n  \"telefono\": \"0987654321\",\n  \"password\": \"{{new_user_password}}\",\n  \"estado\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/users?page=1&limit=20"
+          }
+        },
+        {
+          "name": "Consultar usuario",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/users/{{user_id}}"
+          }
+        },
+        {
+          "name": "Consultar cédula",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/users/cedula/1712345678"
+          }
+        },
+        {
+          "name": "Actualizar usuario",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/users/{{user_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombres\": \"Pedro Alejandro\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Eliminar usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/users/{{user_id}}"
+          }
+        },
+        {
+          "name": "Crear rol",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/roles",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rol\": \"SUPERVISOR\",\n  \"description\": \"Rol de ejemplo sin permisos de análisis\",\n  \"estado\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Listar roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/roles"
+          }
+        },
+        {
+          "name": "Consultar rol",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/roles/{{role_id}}"
+          }
+        },
+        {
+          "name": "Actualizar rol",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/roles/{{role_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Descripción actualizada\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Eliminar rol",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/roles/{{role_id}}"
+          }
+        },
+        {
+          "name": "Asignar rol",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/user-roles",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"roleId\": \"{{role_id}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Consultar asignaciones",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/user-roles/user/{{user_id}}"
+          }
+        },
+        {
+          "name": "Retirar asignación por id",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/user-roles/{{assignment_id}}"
+          }
+        },
+        {
+          "name": "Decisión análisis",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Service-Token",
+                "value": "{{service_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{internal_url}}/internal/authorization/check",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject_token\": \"{{access_token}}\",\n  \"action\": \"steganography.analyze\",\n  \"resource_id\": null\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Decisión lectura de resultado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Service-Token",
+                "value": "{{service_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{internal_url}}/internal/authorization/check",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject_token\": \"{{access_token}}\",\n  \"action\": \"steganography.results.read\",\n  \"resource_id\": \"{{analysis_id}}\",\n  \"resource_owner_id\": \"{{owner_id}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": "{{base_url}}/auth/logout"
+          }
+        }
+      ]
+    },
+    {
+      "name": "STEGO — análisis y permisos",
+      "item": [
+        {
+          "name": "Login ANALYST",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"amendoza\",\n  \"password\": \"{{seed_password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Login correcto', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) pm.collectionVariables.set('analyst_token', pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login USER",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"mgomez\",\n  \"password\": \"{{seed_password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Login correcto', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) pm.collectionVariables.set('user_token', pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Analizar como ANALYST — seleccionar original o LSB",
+          "request": {
+            "method": "POST",
+            "url": "{{stego_url}}/api/v1/steganography/analyze",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{analyst_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Seleccionar PNG local de ms-stego/samples"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) pm.collectionVariables.set('analysis_id', pm.response.json().analysis_id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "USER sin permiso",
+          "request": {
+            "method": "POST",
+            "url": "{{stego_url}}/api/v1/steganography/analyze",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Seleccionar PNG local de ms-stego/samples"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Carga sin JWT",
+          "request": {
+            "method": "POST",
+            "url": "{{stego_url}}/api/v1/steganography/analyze",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Seleccionar PNG local de ms-stego/samples"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultar propio ANALYST",
+          "request": {
+            "method": "GET",
+            "url": "{{stego_url}}/api/v1/steganography/results/{{analysis_id}}",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{analyst_token}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultar como ADMIN",
+          "request": {
+            "method": "GET",
+            "url": "{{stego_url}}/api/v1/steganography/results/{{analysis_id}}",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

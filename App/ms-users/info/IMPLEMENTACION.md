@@ -1,3 +1,5 @@
+> Documento histórico del taller del 29/10/2026. La versión vigente para el parcial es [AUTH V2](../docs/AUTH_V2.md); sus roles, claves, contratos y despliegue sustituyen los del taller donde difieran.
+
 # Integración de los cuatro documentos del profesor
 
 Referencia: https://github.com/agcudco/ms-users-nestjs/tree/d5ed93d86455711ef193541dd3cedc0ed98ee317

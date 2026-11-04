@@ -41,7 +41,7 @@ export class RolesController {
   }
 
   @Get()
-  @Roles('ADMIN', 'OPERADOR')
+  @Roles('ADMIN')
   findAll(
     @Query()
     pagination: PaginationQueryDto,
@@ -50,7 +50,7 @@ export class RolesController {
   }
 
   @Get(':id')
-  @Roles('ADMIN', 'OPERADOR')
+  @Roles('ADMIN')
   findOne(
     @Param(
       'id',

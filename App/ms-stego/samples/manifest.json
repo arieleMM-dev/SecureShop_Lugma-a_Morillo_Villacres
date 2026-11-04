@@ -1,0 +1,97 @@
+{
+  "seed": 4201,
+  "construction": "Controles sintéticos: valores pares, ruido benigno y reemplazo LSB. No son fotografías ni corpus representativo.",
+  "message": "Proyecto integrador: carga LSB real de prueba.",
+  "rows": [
+    {
+      "file": "original_control.png",
+      "sha256": "b7894c8b99be99ea0b3d88dc5deaa89ff1ed627cbf7db74148ab2a24f967afda",
+      "contains_payload": false,
+      "status": "sin_indicios",
+      "indicators": {
+        "sample_count": 196608,
+        "eligible_pairs": 128,
+        "lsb_one_fraction": 0.0,
+        "alpha": 0.05,
+        "low_threshold": 0.01,
+        "version": "pov-pearson-v1",
+        "chi_square": 196608.0,
+        "degrees_of_freedom": 128,
+        "equiprobability_p_value": 0.0
+      }
+    },
+    {
+      "file": "oculta_lsb.png",
+      "sha256": "212985d37f143c8bcdd2a4cb276062f53687de556ac5ad39fca0f0f2ffa4551d",
+      "contains_payload": true,
+      "status": "sospechoso",
+      "indicators": {
+        "sample_count": 196608,
+        "eligible_pairs": 128,
+        "lsb_one_fraction": 0.5005086263020834,
+        "alpha": 0.05,
+        "low_threshold": 0.01,
+        "version": "pov-pearson-v1",
+        "chi_square": 125.296875,
+        "degrees_of_freedom": 128,
+        "equiprobability_p_value": 0.5510812305839959
+      }
+    },
+    {
+      "file": "oculta_baja_carga.png",
+      "sha256": "10f50eaed2346139855eda2391ab67d6703fb9f6748b5007acde3599e3e411e2",
+      "contains_payload": true,
+      "status": "sin_indicios",
+      "indicators": {
+        "sample_count": 196608,
+        "eligible_pairs": 128,
+        "lsb_one_fraction": 0.0009969075520833333,
+        "alpha": 0.05,
+        "low_threshold": 0.01,
+        "version": "pov-pearson-v1",
+        "chi_square": 195825.01562500003,
+        "degrees_of_freedom": 128,
+        "equiprobability_p_value": 0.0
+      }
+    },
+    {
+      "file": "ruido_sin_mensaje.png",
+      "sha256": "9b0d38afacdaad5dcbc4e4f3ba47ae3778d9fd79a4b2a4196a778ee54e70604f",
+      "contains_payload": false,
+      "status": "sospechoso",
+      "indicators": {
+        "sample_count": 196608,
+        "eligible_pairs": 128,
+        "lsb_one_fraction": 0.4999491373697917,
+        "alpha": 0.05,
+        "low_threshold": 0.01,
+        "version": "pov-pearson-v1",
+        "chi_square": 110.73900491426063,
+        "degrees_of_freedom": 128,
+        "equiprobability_p_value": 0.8619998264508512
+      }
+    },
+    {
+      "file": "pequena.png",
+      "sha256": "eceb6a804feb26f68fe45ec6b9dd9ea012e189c9e1f3ed41f40f19c3280ed5c5",
+      "contains_payload": false,
+      "status": "no_concluyente",
+      "indicators": {
+        "sample_count": 192,
+        "eligible_pairs": 0,
+        "lsb_one_fraction": 0.0,
+        "alpha": 0.05,
+        "low_threshold": 0.01,
+        "version": "pov-pearson-v1"
+      }
+    }
+  ],
+  "metrics": {
+    "TP": 1,
+    "FP": 1,
+    "TN": 1,
+    "FN": 1,
+    "no_concluyentes": 1
+  },
+  "limitations": "Parámetros propuestos antes de probar. Ruido puede dar falso positivo y baja carga puede evadir el contraste."
+}

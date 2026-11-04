@@ -1,44 +1,62 @@
 services:
-
   postgres:
     image: postgres:18-alpine
-    container_name: users-postgres
-
     restart: unless-stopped
-
     environment:
-      POSTGRES_DB: "${DB_DATABASE:?DB_DATABASE no definido}"
-      POSTGRES_USER: "${DB_USERNAME:?DB_USERNAME no definido}"
-      POSTGRES_PASSWORD: "${DB_PASSWORD:?DB_PASSWORD no definido}"
-
+      POSTGRES_DB: "${DB_DATABASE:?Configurar DB_DATABASE}"
+      POSTGRES_USER: "${DB_USERNAME:?Configurar DB_USERNAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD:?Configurar DB_PASSWORD}"
     ports:
       - "127.0.0.1:${DB_PORT:-5432}:5432"
-
     volumes:
       - users_postgres_data:/var/lib/postgresql
-
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"
-        ]
+      test: ["CMD-SHELL", 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [auth-data]
+    security_opt: ["no-new-privileges:true"]
+  auth:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: "${NODE_ENV:-development}"
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      JWT_PRIVATE_KEY_PATH: /app/secrets/jwt-private.pem
+      JWT_PUBLIC_KEY_PATH: /app/secrets/jwt-public.pem
+      AUTH_TLS_CERT_PATH: /app/secrets/auth-tls.crt
+      AUTH_TLS_KEY_PATH: /app/secrets/auth-tls.key
+      PORT: "3001"
+      AUTH_INTERNAL_PORT: "3443"
+      AUTH_BIND_HOST: "0.0.0.0"
+    ports:
+      - "127.0.0.1:${PORT:-3001}:3001"
+      - "127.0.0.1:${AUTH_INTERNAL_PORT:-3443}:3443"
+    volumes:
+      - ./secrets/jwt-private.pem:/app/secrets/jwt-private.pem:ro
+      - ./secrets/jwt-public.pem:/app/secrets/jwt-public.pem:ro
+      - ./secrets/auth-tls.crt:/app/secrets/auth-tls.crt:ro
+      - ./secrets/auth-tls.key:/app/secrets/auth-tls.key:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [auth-data, backend-services]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    read_only: true
+    tmpfs: [/tmp]
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:3001/api/v1/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
       interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-
-    security_opt:
-      - no-new-privileges:true
-
-    networks:
-      - users-network
-
-
+      timeout: 3s
+      retries: 10
 volumes:
   users_postgres_data:
-
-
 networks:
-  users-network:
-    driver: bridge
+  auth-data:
+    internal: true
+  backend-services:
+    name: chat-backend-services

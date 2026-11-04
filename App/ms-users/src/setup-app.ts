@@ -71,7 +71,7 @@ export function setupApp(app: NestExpressApplication): void {
   /*
    * /api/v1/...
    */
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', { exclude: ['internal/authorization/check'] });
 
   app.enableVersioning({
     type: VersioningType.URI,
@@ -88,6 +88,10 @@ export function setupApp(app: NestExpressApplication): void {
       .setDescription('Microservicio de usuarios y roles')
       .setVersion('1.0')
       .addBearerAuth()
+      .addApiKey(
+        { type: 'apiKey', in: 'header', name: 'X-Service-Token' },
+        'ServiceToken',
+      )
       .build();
 
     const document = SwaggerModule.createDocument(app, swaggerConfig);
