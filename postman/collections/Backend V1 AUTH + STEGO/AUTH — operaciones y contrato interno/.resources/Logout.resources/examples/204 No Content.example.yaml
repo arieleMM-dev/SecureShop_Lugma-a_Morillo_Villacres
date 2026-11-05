@@ -1,0 +1,13 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/auth/logout"
+  method: POST
+  headers:
+    Authorization: Bearer {{access_token}}
+response:
+  statusCode: 204
+  statusText: No Content
+  body:
+    type: text
+    content: ""
+order: 1000

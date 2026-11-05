@@ -1,0 +1,194 @@
+Swagger y OpenAPI exportado coinciden para AUTH y STEGO.
+No authorization data found. Please use the `postman login` command.
+Refer:https://learning.postman.com/docs/postman-cli/postman-cli-options/#postman-login
+
+Running your collection...
+postman
+
+Backend V1 AUTH + STEGO (simplificada)
+
+Root Salud AUTH
+
+  GET https://localhost:55041/api/v1/health [200 OK, 1.07 KB, 65 ms]
+  Pass  HTTP 200
+
+Root Login de administrador
+
+  POST https://localhost:55041/api/v1/auth/login [200 OK, 1.92 KB, 79 ms]
+  Pass  Login correcto
+  Pass  HTTP 200
+
+Root Roles con el token de administrador
+
+  GET https://localhost:55041/api/v1/roles [200 OK, 1.76 KB, 13 ms]
+  Pass  HTTP 200
+
+Root Datos de rol inválidos
+
+  POST https://localhost:55041/api/v1/roles [400 Bad Request, 1.46 KB, 8 ms]
+  Pass  HTTP 400
+  Pass  Error JSON tipado
+
+Root Crear un rol
+
+  POST https://localhost:55041/api/v1/roles [201 Created, 1.25 KB, 14 ms]
+  Pass  HTTP 201
+  Pass  Rol devuelto
+
+Root Eliminar rol con cuerpo vacío
+
+  DELETE https://localhost:55041/api/v1/roles/776a1721-b70d-428b-af11-2d28afe3aa57 [204 No Content, 914 B, 12 ms]
+  Pass  HTTP 204
+  Pass  Sin cuerpo
+
+Root Login amendoza
+
+  POST https://localhost:55041/api/v1/auth/login [200 OK, 1.93 KB, 61 ms]
+  Pass  Login correcto
+  Pass  HTTP 200
+  Pass  JWT del analista guardado
+
+Root Análisis del PNG por defecto
+
+  POST http://127.0.0.1:55042/api/v1/steganography/analyze [200 OK, 1.04 KB, 895 ms]
+  Pass  HTTP 200
+  Pass  Control sin indicios
+
+Root Análisis de carga LSB
+
+  POST http://127.0.0.1:55042/api/v1/steganography/analyze [200 OK, 1.06 KB, 894 ms]
+  Pass  HTTP 200
+  Pass  Carga detectada
+
+Root Consulta del propietario
+
+  GET http://127.0.0.1:55042/api/v1/steganography/results/91c23692-a4de-4dc0-ad15-eab63592c274 [200 OK, 1.06 KB, 11 ms]
+  Pass  HTTP 200
+
+Root Login cvega
+
+  POST https://localhost:55041/api/v1/auth/login [200 OK, 1.93 KB, 59 ms]
+  Pass  Login correcto
+  Pass  HTTP 200
+
+Root Consulta ajena denegada
+
+  GET http://127.0.0.1:55042/api/v1/steganography/results/91c23692-a4de-4dc0-ad15-eab63592c274 [403 Forbidden, 292 B, 9 ms]
+  Pass  HTTP 403
+
+Root Consulta de ADMIN
+
+  GET http://127.0.0.1:55042/api/v1/steganography/results/91c23692-a4de-4dc0-ad15-eab63592c274 [200 OK, 1.06 KB, 10 ms]
+  Pass  HTTP 200
+
+Root ID inválido devuelve 400
+
+  GET http://127.0.0.1:55042/api/v1/steganography/results/no-es-uuid [400 Bad Request, 293 B, 6 ms]
+  Pass  HTTP 400
+  Pass  Error JSON detail
+
+Root Resultado inexistente devuelve 404
+
+  GET http://127.0.0.1:55042/api/v1/steganography/results/11111111-1111-4111-8111-111111111111 [404 Not Found, 278 B, 10 ms]
+  Pass  HTTP 404
+
+Root Login mgomez
+
+  POST https://localhost:55041/api/v1/auth/login [200 OK, 1.92 KB, 60 ms]
+  Pass  Login correcto
+  Pass  HTTP 200
+
+Root USER con PNG
+
+  POST http://127.0.0.1:55042/api/v1/steganography/analyze [403 Forbidden, 292 B, 10 ms]
+  Pass  HTTP 403
+
+Root Sin JWT con PNG
+
+  POST http://127.0.0.1:55042/api/v1/steganography/analyze [401 Unauthorized, 309 B, 3 ms]
+  Pass  HTTP 401
+
+Root JWT inválido con PNG
+
+  POST http://127.0.0.1:55042/api/v1/steganography/analyze [401 Unauthorized, 310 B, 3 ms]
+  Pass  HTTP 401
+
+Root USER sin archivo
+
+  POST http://127.0.0.1:55042/api/v1/steganography/analyze [403 Forbidden, 292 B, 9 ms]
+  Pass  HTTP 403
+
+Root Sin JWT ni archivo
+
+  POST http://127.0.0.1:55042/api/v1/steganography/analyze [401 Unauthorized, 309 B, 3 ms]
+  Pass  HTTP 401
+
+Root ADMIN puede analizar el mismo PNG
+
+  POST http://127.0.0.1:55042/api/v1/steganography/analyze [200 OK, 1.04 KB, 955 ms]
+  Pass  HTTP 200
+  Pass  El resultado pertenece a ADMIN
+
+------------------------------------------------------------------------
+|                         |             executed |              failed |
+--------------------------+----------------------+----------------------
+|              iterations |                    1 |                   0 |
+--------------------------+----------------------+----------------------
+|                requests |                   22 |                   0 |
+--------------------------+----------------------+----------------------
+|            test-scripts |                   34 |                   0 |
+--------------------------+----------------------+----------------------
+|      prerequest-scripts |                    0 |                   0 |
+--------------------------+----------------------+----------------------
+|              assertions |                   34 |                   0 |
+------------------------------------------------------------------------
+| total run duration: 5 s                                              |
+------------------------------------------------------------------------
+| total data received: 9.77 KB (approx)                                |
+------------------------------------------------------------------------
+| average response time: 144 ms [min: 3 ms, max: 955 ms, s.d.: 306 ms] |
+------------------------------------------------------------------------
+Postman credentials are required for publishing run details to Postman cloud.
+Please specify it by using the `postman login` command
+No authorization data found. Please use the `postman login` command.
+Refer:https://learning.postman.com/docs/postman-cli/postman-cli-options/#postman-login
+
+Running your collection...
+postman
+
+Backend V1 AUTH + STEGO
+
+Folder AUTH — operaciones y contrato interno
+Sub-folder Login de prueba
+
+  POST https://localhost:55041/api/v1/auth/login [200 OK, 1.93 KB, 70 ms]
+  Pass  Login correcto
+
+Folder STEGO — análisis y permisos
+Sub-folder Analizar imagen
+
+  POST http://127.0.0.1:55042/api/v1/steganography/analyze [200 OK, 1.04 KB, 889 ms]
+
+Sub-folder Consultar resultado
+
+  GET http://127.0.0.1:55042/api/v1/steganography/results/ef31140e-6c12-4740-9ee9-b42a4060e095 [200 OK, 1.04 KB, 7 ms]
+
+------------------------------------------------------------------------
+|                         |             executed |              failed |
+--------------------------+----------------------+----------------------
+|              iterations |                    1 |                   0 |
+--------------------------+----------------------+----------------------
+|                requests |                    3 |                   0 |
+--------------------------+----------------------+----------------------
+|            test-scripts |                    2 |                   0 |
+--------------------------+----------------------+----------------------
+|      prerequest-scripts |                    0 |                   0 |
+--------------------------+----------------------+----------------------
+|              assertions |                    1 |                   0 |
+------------------------------------------------------------------------
+| total run duration: 1237 ms                                          |
+------------------------------------------------------------------------
+| total data received: 2.56 KB (approx)                                |
+------------------------------------------------------------------------
+| average response time: 322 ms [min: 7 ms, max: 889 ms, s.d.: 401 ms] |
+------------------------------------------------------------------------

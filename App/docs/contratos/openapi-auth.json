@@ -12,6 +12,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Health"
+                },
+                "example": {
+                  "status": "ok",
+                  "service": "user-service",
+                  "timestamp": "2026-11-04T12:00:00.000Z"
                 }
               }
             }
@@ -22,6 +27,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/health",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -32,6 +44,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/health",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -58,11 +77,22 @@
         },
         "responses": {
           "201": {
-            "description": "Operación exitosa",
+            "description": "Recurso creado",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "id": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                  "cedula": "1799999001",
+                  "nombres": "Cuenta",
+                  "apellidos": "Demostracion",
+                  "fechaNacimiento": "1998-04-18",
+                  "username": "amendoza",
+                  "email": "analista@example.com",
+                  "telefono": "0990009001",
+                  "estado": true
                 }
               }
             }
@@ -73,6 +103,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -83,6 +122,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -93,6 +139,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -103,6 +156,47 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 409,
+                  "message": "Conflicto de unicidad",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Carga excesiva",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 413,
+                  "message": "Carga excesiva",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Codificación no admitida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 415,
+                  "message": "Codificación no admitida",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -113,6 +207,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -123,6 +224,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -169,6 +277,27 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UsersPage"
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                      "cedula": "1799999001",
+                      "nombres": "Cuenta",
+                      "apellidos": "Demostracion",
+                      "fechaNacimiento": "1998-04-18",
+                      "username": "amendoza",
+                      "email": "analista@example.com",
+                      "telefono": "0990009001",
+                      "estado": true
+                    }
+                  ],
+                  "meta": {
+                    "page": 1,
+                    "limit": 20,
+                    "total": 1,
+                    "totalPages": 1
+                  }
                 }
               }
             }
@@ -179,6 +308,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -189,6 +327,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -199,6 +344,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -209,6 +361,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -219,6 +378,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -254,6 +420,17 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "id": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                  "cedula": "1799999001",
+                  "nombres": "Cuenta",
+                  "apellidos": "Demostracion",
+                  "fechaNacimiento": "1998-04-18",
+                  "username": "amendoza",
+                  "email": "analista@example.com",
+                  "telefono": "0990009001",
+                  "estado": true
                 }
               }
             }
@@ -264,6 +441,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/cedula/{cedula}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -274,6 +460,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/cedula/{cedula}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -284,6 +477,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/cedula/{cedula}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -294,6 +494,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "message": "Entidad no encontrada",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/cedula/{cedula}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -304,6 +511,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/cedula/{cedula}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -314,6 +528,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/cedula/{cedula}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -349,6 +570,17 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "id": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                  "cedula": "1799999001",
+                  "nombres": "Cuenta",
+                  "apellidos": "Demostracion",
+                  "fechaNacimiento": "1998-04-18",
+                  "username": "amendoza",
+                  "email": "analista@example.com",
+                  "telefono": "0990009001",
+                  "estado": true
                 }
               }
             }
@@ -359,6 +591,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -369,6 +610,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -379,6 +627,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -389,6 +644,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "message": "Entidad no encontrada",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -399,6 +661,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -409,6 +678,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -452,6 +728,17 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "id": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                  "cedula": "1799999001",
+                  "nombres": "Cuenta",
+                  "apellidos": "Demostracion",
+                  "fechaNacimiento": "1998-04-18",
+                  "username": "amendoza",
+                  "email": "analista@example.com",
+                  "telefono": "0990009001",
+                  "estado": true
                 }
               }
             }
@@ -462,6 +749,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -472,6 +768,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -482,6 +785,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -492,6 +802,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "message": "Entidad no encontrada",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -502,6 +819,47 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 409,
+                  "message": "Conflicto de unicidad",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Carga excesiva",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 413,
+                  "message": "Carga excesiva",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Codificación no admitida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 415,
+                  "message": "Codificación no admitida",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -512,6 +870,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -522,6 +887,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -558,6 +930,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -568,6 +949,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -578,6 +966,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -588,6 +983,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "message": "Entidad no encontrada",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -598,6 +1000,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -608,6 +1017,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/users/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -639,11 +1055,17 @@
         },
         "responses": {
           "201": {
-            "description": "Operación exitosa",
+            "description": "Recurso creado",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Role"
+                },
+                "example": {
+                  "id": "d42d2919-4ed3-4c9d-9205-55adbb7bdb82",
+                  "rol": "ANALYST",
+                  "description": "Rol de análisis",
+                  "estado": true
                 }
               }
             }
@@ -654,6 +1076,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -664,6 +1095,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -674,6 +1112,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -684,6 +1129,47 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 409,
+                  "message": "Conflicto de unicidad",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Carga excesiva",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 413,
+                  "message": "Carga excesiva",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Codificación no admitida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 415,
+                  "message": "Codificación no admitida",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -694,6 +1180,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -704,6 +1197,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -750,6 +1250,22 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RolesPage"
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": "d42d2919-4ed3-4c9d-9205-55adbb7bdb82",
+                      "rol": "ANALYST",
+                      "description": "Rol de análisis",
+                      "estado": true
+                    }
+                  ],
+                  "meta": {
+                    "page": 1,
+                    "limit": 20,
+                    "total": 1,
+                    "totalPages": 1
+                  }
                 }
               }
             }
@@ -760,6 +1276,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -770,6 +1295,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -780,6 +1312,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -790,6 +1329,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -800,6 +1346,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -835,6 +1388,12 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Role"
+                },
+                "example": {
+                  "id": "d42d2919-4ed3-4c9d-9205-55adbb7bdb82",
+                  "rol": "ANALYST",
+                  "description": "Rol de análisis",
+                  "estado": true
                 }
               }
             }
@@ -845,6 +1404,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -855,6 +1423,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -865,6 +1440,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -875,6 +1457,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "message": "Entidad no encontrada",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -885,6 +1474,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -895,6 +1491,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -938,6 +1541,12 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Role"
+                },
+                "example": {
+                  "id": "d42d2919-4ed3-4c9d-9205-55adbb7bdb82",
+                  "rol": "ANALYST",
+                  "description": "Rol de análisis",
+                  "estado": true
                 }
               }
             }
@@ -948,6 +1557,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -958,6 +1576,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -968,6 +1593,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -978,6 +1610,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "message": "Entidad no encontrada",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -988,6 +1627,47 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 409,
+                  "message": "Conflicto de unicidad",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Carga excesiva",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 413,
+                  "message": "Carga excesiva",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Codificación no admitida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 415,
+                  "message": "Codificación no admitida",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -998,6 +1678,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1008,6 +1695,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1044,6 +1738,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1054,6 +1757,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1064,6 +1774,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1074,6 +1791,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "message": "Entidad no encontrada",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1084,6 +1808,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1094,6 +1825,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1125,11 +1863,18 @@
         },
         "responses": {
           "201": {
-            "description": "Operación exitosa",
+            "description": "Recurso creado",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Assignment"
+                },
+                "example": {
+                  "id": "556a6466-9615-4ad2-841a-8f69006b3c18",
+                  "userId": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                  "roleId": "d42d2919-4ed3-4c9d-9205-55adbb7bdb82",
+                  "fechaAsignacion": "2026-11-04T12:00:00.000Z",
+                  "estado": true
                 }
               }
             }
@@ -1140,6 +1885,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1150,6 +1904,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1160,6 +1921,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1170,6 +1938,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "message": "Entidad no encontrada",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1180,6 +1955,47 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 409,
+                  "message": "Conflicto de unicidad",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Carga excesiva",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 413,
+                  "message": "Carga excesiva",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Codificación no admitida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 415,
+                  "message": "Codificación no admitida",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1190,6 +2006,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1200,6 +2023,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1238,7 +2068,22 @@
                   "items": {
                     "$ref": "#/components/schemas/Assignment"
                   }
-                }
+                },
+                "example": [
+                  {
+                    "id": "556a6466-9615-4ad2-841a-8f69006b3c18",
+                    "userId": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                    "roleId": "d42d2919-4ed3-4c9d-9205-55adbb7bdb82",
+                    "fechaAsignacion": "2026-11-04T12:00:00.000Z",
+                    "estado": true,
+                    "role": {
+                      "id": "d42d2919-4ed3-4c9d-9205-55adbb7bdb82",
+                      "rol": "ANALYST",
+                      "description": "Rol de análisis",
+                      "estado": true
+                    }
+                  }
+                ]
               }
             }
           },
@@ -1248,6 +2093,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/user/{userId}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1258,6 +2112,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/user/{userId}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1268,6 +2129,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/user/{userId}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1278,6 +2146,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "message": "Entidad no encontrada",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/user/{userId}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1288,6 +2163,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/user/{userId}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1298,6 +2180,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/user/{userId}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1336,6 +2225,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1346,6 +2244,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1356,6 +2261,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "message": "La sesión no tiene permiso",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1366,6 +2278,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "message": "Entidad no encontrada",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1376,6 +2295,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1386,6 +2312,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/user-roles/{id}",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1464,6 +2397,19 @@
                       }
                     }
                   }
+                },
+                "example": {
+                  "accessToken": "<JWT>",
+                  "tokenType": "Bearer",
+                  "expiresIn": 900,
+                  "user": {
+                    "id": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                    "username": "amendoza",
+                    "email": "analista@example.com",
+                    "roles": [
+                      "ANALYST"
+                    ]
+                  }
                 }
               }
             }
@@ -1474,6 +2420,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/login",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1484,6 +2439,47 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/login",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Carga excesiva",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 413,
+                  "message": "Carga excesiva",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/login",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Codificación no admitida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 415,
+                  "message": "Codificación no admitida",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/login",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1494,6 +2490,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/login",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1504,6 +2507,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/login",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1544,6 +2554,14 @@
                       }
                     }
                   }
+                },
+                "example": {
+                  "userId": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                  "username": "amendoza",
+                  "email": "analista@example.com",
+                  "roles": [
+                    "ANALYST"
+                  ]
                 }
               }
             }
@@ -1554,6 +2572,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/profile",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1564,6 +2589,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/profile",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1574,6 +2606,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/profile",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1619,6 +2658,14 @@
                       }
                     }
                   }
+                },
+                "example": {
+                  "userId": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                  "username": "amendoza",
+                  "email": "analista@example.com",
+                  "roles": [
+                    "ANALYST"
+                  ]
                 }
               }
             }
@@ -1629,6 +2676,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/me",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1639,6 +2693,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/me",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1649,6 +2710,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/me",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1678,6 +2746,47 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/logout",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Carga excesiva",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 413,
+                  "message": "Carga excesiva",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/logout",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Codificación no admitida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 415,
+                  "message": "Codificación no admitida",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/logout",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1688,6 +2797,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/logout",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1698,6 +2814,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/api/v1/auth/logout",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1769,6 +2892,26 @@
                       ]
                     }
                   }
+                },
+                "examples": {
+                  "permitido": {
+                    "value": {
+                      "subject_id": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                      "action": "steganography.analyze",
+                      "resource_id": null,
+                      "allowed": true,
+                      "reason": "active_role_grants_permission"
+                    }
+                  },
+                  "denegado": {
+                    "value": {
+                      "subject_id": "87d1619e-af9e-4f57-84f2-f93f04690812",
+                      "action": "steganography.analyze",
+                      "resource_id": null,
+                      "allowed": false,
+                      "reason": "active_role_does_not_grant_permission"
+                    }
+                  }
                 }
               }
             }
@@ -1779,6 +2922,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "message": [
+                    "Entrada o parámetro inválido"
+                  ],
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/internal/authorization/check",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1789,6 +2941,47 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "message": "Credenciales, sesión o identidad de servicio inválidas",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/internal/authorization/check",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Carga excesiva",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 413,
+                  "message": "Carga excesiva",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/internal/authorization/check",
+                  "requestId": "ejemplo-auth"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Codificación no admitida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 415,
+                  "message": "Codificación no admitida",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/internal/authorization/check",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1799,6 +2992,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 429,
+                  "message": "Límite de solicitudes excedido",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/internal/authorization/check",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }
@@ -1809,6 +3009,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "statusCode": 500,
+                  "message": "Error interno",
+                  "timestamp": "2026-11-04T12:00:00.000Z",
+                  "path": "/internal/authorization/check",
+                  "requestId": "ejemplo-auth"
                 }
               }
             }

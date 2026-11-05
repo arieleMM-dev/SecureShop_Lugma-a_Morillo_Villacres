@@ -54,7 +54,7 @@ Referencia de evaluación. [Proyecto Integrador del Primer Parcial, páginas 2�
 | POST | `/api/v1/steganography/analyze` | ADMIN o ANALYST | [API STEGO](../ms-stego/app/main.py) |
 | GET | `/api/v1/steganography/results/{analysis_id}` | ANALYST propietario o ADMIN | [API STEGO](../ms-stego/app/main.py) |
 
-Los códigos 401/403/413/415 se verifican en T03, T04, T10 y T11. [Auditoría AUTH](../ms-users/src/audit/audit.module.ts) y [auditoría STEGO](../ms-stego/app/store.py) registran datos acotados. [OpenAPI AUTH](contratos/openapi-auth.json), [OpenAPI STEGO](contratos/openapi-stego.json), [colección Postman](pruebas/backend-v1.postman_collection.json) y [resultados](04_pruebas_y_evidencias.md).
+La colección conserva las operaciones de administración de AUTH y agrupa STEGO en **Analizar imagen** y **Consultar resultado**. La autorización interna permanece en OpenAPI y la invoca STEGO. La salud de STEGO se verifica aparte en `GET /health`. Los códigos 401/403/413/415 se verifican en T03, T04, T10 y T11. [Auditoría AUTH](../ms-users/src/audit/audit.module.ts) y [auditoría STEGO](../ms-stego/app/store.py) registran datos acotados. [OpenAPI AUTH](contratos/openapi-auth.json), [OpenAPI STEGO](contratos/openapi-stego.json), [colección Postman](pruebas/backend-v1.postman_collection.json) y [resultados](04_pruebas_y_evidencias.md).
 
 ## 3 Entregables y presentación
 
@@ -67,3 +67,24 @@ Los códigos 401/403/413/415 se verifican en T03, T04, T10 y T11. [Auditoría AU
 | 5. Evidencia de desarrollo seguro | [Matriz de riesgos](03_matriz_riesgos.md), que vincula cada riesgo con controles, pruebas y principios solicitados. |
 | 6. Pruebas, solicitudes, muestras y auditoría | [Pruebas y evidencias](04_pruebas_y_evidencias.md), [colección REST](pruebas/backend-v1.postman_collection.json), [muestras](pruebas/muestras/manifest.json), [auditoría AUTH](pruebas/resultados/auth-auditoria-ejemplo.json) y [auditoría STEGO](pruebas/resultados/stego-auditoria.json). La consigna requiere los tipos de prueba y los escenarios del anexo D. La implementación usa Jest, Node.js, pytest y HTTPX. |
 | 7. Sustentación | [Guion detallado para Postman](05_guion_sustentacion_postman.md). Las pruebas automatizadas respaldan lo que el equipo debe demostrar en la sesión. |
+
+
+## Cobertura del documento completo
+
+| Parte de la consigna | Evidencia que permite defenderla |
+|---|---|
+| Resumen y §§1–1.2, objetivo y responsabilidades | [Arquitectura](01_arquitectura_y_modelo_datos.md), servicios separados, identidades N:M y análisis real. |
+| §1.3, alcance | La entrega es backend. Salas, interfaz, mensajería y E2EE pertenecen a fases posteriores. Los documentos de actividades anteriores se identifican por su propio alcance. |
+| §§2.1–2.5 | Matrices de este mapa, contratos OpenAPI y rutas del código enlazadas arriba. |
+| §3, código y configuración | README, Dockerfiles, dependencias, `.env.example`, migraciones, seed y Compose enlazados arriba. |
+| §3, documentos y evidencias | Diagramas SVG, explicación JWT/RBAC, matriz de permisos, método, matriz de riesgos, colección REST, muestras y registros. [Índice de entregables](README.md). |
+| §3, sustentación | [Guion](05_guion_sustentacion_postman.md). La ejecución por el equipo durante la presentación se registra por separado en los checklists. |
+| §4, rúbrica de 20 puntos | Arquitectura (3), identidad (3), JWT (3), RBAC/integración (4), detección (5) y pruebas/documentación (2). Cada grupo está enlazado con su implementación y T01–T12. La calificación corresponde al docente. |
+| Anexo A | PK, FK, UUID propio y par único en entidades y migraciones de AUTH. |
+| Anexo B | Endpoint interno sobre TLS, identidad de servicio, decisión actual por acción/recurso y denegación por defecto. |
+| Anexo C | Contrato de resultados con SHA-256, indicadores calculados, fecha, clasificación, política y limitaciones. |
+| Anexo D | [Pruebas T01–T12](04_pruebas_y_evidencias.md), código ejecutable y resultados reproducibles. |
+| Anexo E | [Matriz M01–M07](03_matriz_riesgos.md), que contiene los seis grupos de activos del ejemplo y el riesgo del detector. |
+| §6, referencias | Los checklists conservan la bibliografía del PDF. La documentación técnica vincula el método, los principios ISO, JWT, Zero Trust y carga segura con sus fuentes. |
+
+El [checklist 04](historico/04_Analisis_y_checklist_Primer_Parcial.md) conserva el texto del 03 y marca la comprobación previa P09. Las casillas P01–P08 se completan cuando el equipo realice la presentación.

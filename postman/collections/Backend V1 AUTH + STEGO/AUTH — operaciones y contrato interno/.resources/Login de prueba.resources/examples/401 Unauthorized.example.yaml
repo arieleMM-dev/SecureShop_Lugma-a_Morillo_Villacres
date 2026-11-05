@@ -1,0 +1,29 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/auth/login"
+  method: POST
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "identifier": "amendoza",
+        "password": "{{seed_password}}"
+      }
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "statusCode": 401,
+        "message": "Credenciales, sesión o identidad de servicio inválidas",
+        "timestamp": "2026-11-04T12:00:00.000Z",
+        "path": "/api/v1/auth/login",
+        "requestId": "ejemplo-auth"
+      }
+order: 3000

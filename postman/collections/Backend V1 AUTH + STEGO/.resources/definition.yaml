@@ -1,0 +1,58 @@
+$kind: collection
+description: "Colección simplificada. AUTH administra identidades y roles. STEGO tiene solo Analizar imagen y Consultar resultado. Repite las pruebas cambiando el archivo o el encabezado Authorization. La consulta interna la hace STEGO. Configura la carpeta de trabajo con App/docs/pruebas/muestras y sigue el guion."
+variables:
+  - key: base_url
+    value: https://localhost:3443/api/v1
+    disabled: false
+    secret: false
+  - key: seed_password
+    value: ""
+    disabled: false
+    secret: false
+  - key: new_user_password
+    value: ""
+    disabled: false
+    secret: false
+  - key: access_token
+    value: ""
+    disabled: false
+    secret: false
+  - key: user_id
+    value: ""
+    disabled: false
+    secret: false
+  - key: role_id
+    value: ""
+    disabled: false
+    secret: false
+  - key: assignment_id
+    value: ""
+    disabled: false
+    secret: false
+  - key: analysis_id
+    value: ""
+    disabled: false
+    secret: false
+  - key: stego_url
+    value: http://localhost:8000
+    disabled: false
+    secret: false
+  - key: analyst_token
+    value: ""
+    disabled: false
+    secret: false
+  - key: user_token
+    value: ""
+    disabled: false
+    secret: false
+  - key: other_analyst_token
+    value: ""
+    disabled: false
+    secret: false
+  - key: demo_token
+    value: ""
+    disabled: false
+    secret: false
+  - key: bearer_token_16vv
+    secret: true
+    disabled: false

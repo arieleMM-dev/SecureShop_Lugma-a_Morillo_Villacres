@@ -53,5 +53,26 @@
     "openapi.json",
     "AUTH_V2.md"
   ],
-  "pendiente": "STEGO, integración con STEGO real y entregables/pruebas/sustentación conjuntos. C05 se mantiene pendiente hasta integrar el servicio real."
+  "pendiente": "STEGO, integración con STEGO real y entregables/pruebas/sustentación conjuntos. C05 se mantiene pendiente hasta integrar el servicio real.",
+  "nota_reubicacion_2026_11_05": {
+    "change": "Se corrigió únicamente el enlace relativo a la consigna tras mover los archivos a App/docs/historico.",
+    "snapshots": [
+      {
+        "file": "01_Analisis_y_checklist_Primer_Parcial.md",
+        "before": "120c1418f186f837d05cbcf41e46536f1b2a625730c5d890a1bb27c4c4202f32",
+        "after": "8b993d163ce1bc1c1f106215cb009401ecbfe3dead5b049a280274c472a4d887"
+      },
+      {
+        "file": "02_Analisis_y_checklist_Primer_Parcial.md",
+        "before": "d636a58a9e8c27b5fb18c1bd22abd66c01be150562e52b6b0dd4b92b7069f57b",
+        "after": "caa8b9ae40909dbf79c3e61401615cef6dfc0e29dfc7defbc7611a7e91a4eb44"
+      },
+      {
+        "file": "03_Analisis_y_checklist_Primer_Parcial.md",
+        "before": "3d9ad792a464943c36c55fa44f7450676e379a57cd00f74d394809eec0149d76",
+        "after": "fe7f3c387a76bc277412a8c4dbe0ea5c49f2fdfd1f8d91ee3cd2b2a3cf5e0519"
+      }
+    ],
+    "historical_hashes": "Los hashes de la fase original se conservan como evidencia de aquella fecha."
+  }
 }

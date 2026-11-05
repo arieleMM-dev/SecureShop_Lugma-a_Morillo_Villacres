@@ -12,8 +12,28 @@ from .store import Store
 from .processing import analyze
 
 LIMITATIONS='Indicio estadístico de equiprobabilidad LSB, no prueba de esteganografía. Puede fallar con ruido, baja carga, LSB matching y otras técnicas. No analiza JPEG, metadatos ni cargas cifradas como tales.'
+ANALYSIS_EXAMPLE = {
+    'analysis_id': '8dcfac51-4119-493a-843a-342b9d0c49b6',
+    'user_id': '95fcc5ba-63c3-404d-b4de-0d7e8ec12aa0',
+    'filename': 'oculta_lsb.png',
+    'sha256': '212985d37f143c8bcdd2a4cb276062f53687de556ac5ad39fca0f0f2ffa4551d',
+    'technique': 'pov_pearson_lsb_png8_v1',
+    'indicators': {
+        'sample_count': 196608,
+        'eligible_pairs': 128,
+        'chi_square': 125.296875,
+        'equiprobability_p_value': 0.5510812305839959,
+        'alpha': 0.05,
+    },
+    'created_at': '2026-11-04T22:56:51.298997+00:00',
+    'status': 'sospechoso',
+    'action': 'cuarentena',
+    'limitations': LIMITATIONS,
+}
+
+
 class AnalysisResult(BaseModel):
-    model_config=ConfigDict(extra='ignore')
+    model_config=ConfigDict(extra='ignore', json_schema_extra={'example': ANALYSIS_EXAMPLE})
     analysis_id:str;user_id:str;filename:str;sha256:str;technique:str;indicators:dict
     created_at:str;status:str;action:str;limitations:str
 
@@ -22,29 +42,49 @@ class ApiError(BaseModel):
 
 
 class RecordedAnalysisError(AnalysisResult):
+    model_config = ConfigDict(json_schema_extra={})
     detail: str
 
 
 class ServiceHealth(BaseModel):
+    model_config = ConfigDict(json_schema_extra={'example': {'status': 'ok', 'service': 'stego'}})
     status: str
     service: str
 
 
-def api_error(description):
-    return {'description': description, 'model': ApiError}
+def api_error(description, detail):
+    return {
+        'description': description,
+        'model': ApiError,
+        'content': {'application/json': {'example': {'detail': detail}}},
+    }
 
 
 AUTHORIZATION_ERRORS = {
-    401: api_error('JWT o sesión inválidos'),
-    403: api_error('No tiene permiso sobre la operación o el recurso'),
-    502: api_error('AUTH devolvió una decisión no verificable'),
-    503: api_error('AUTH no pudo proporcionar una decisión'),
-    500: api_error('Error interno'),
+    401: api_error('JWT o sesión inválidos', 'Se requiere un JWT Bearer'),
+    403: api_error('No tiene permiso sobre la operación o el recurso', 'No posee permiso para esta operación'),
+    502: api_error('AUTH devolvió una decisión no verificable', 'Respuesta de autorización no verificable'),
+    503: api_error('AUTH no pudo proporcionar una decisión', 'No se pudo comprobar la autorización vigente'),
+    500: api_error('Error interno', 'Error interno'),
 }
 
 
-def upload_error(description):
-    return {'description': description, 'model': ApiError | RecordedAnalysisError}
+def upload_error(description, rejected_detail, recorded_detail):
+    return {
+        'description': description,
+        'model': ApiError | RecordedAnalysisError,
+        'content': {'application/json': {'examples': {
+            'rechazo_previo': {'value': {'detail': rejected_detail}},
+            'error_registrado': {'value': {
+                **ANALYSIS_EXAMPLE,
+                'filename': 'archivo.png',
+                'sha256': '0' * 64,
+                'indicators': {},
+                'status': 'error',
+                'detail': recorded_detail,
+            }},
+        }}},
+    }
 
 
 class Gate:
@@ -68,8 +108,13 @@ class Gate:
             elif path.startswith('/api/v1/steganography/results/') and method=='GET':
                 route='/api/v1/steganography/results/:id'
                 token,subject=service.state.security.identify(headers);state['user_id']=subject
-                try:resource=str(UUID(path.rstrip('/').split('/')[-1],version=4))
-                except ValueError:raise HTTPException(400,'Identificador de análisis inválido') from None
+                try:
+                    parsed = UUID(path.rstrip('/').split('/')[-1])
+                    if parsed.version != 4:
+                        raise ValueError('Se requiere un UUID v4')
+                    resource = str(parsed)
+                except ValueError:
+                    raise HTTPException(400, 'Identificador de análisis inválido') from None
                 record=service.state.store.get(resource)
                 # El propietario solo sale de nuestra BD; no de campos enviados por el usuario.
                 await service.state.security.authorize(token,subject,'steganography.results.read',resource,record['user_id'] if record else subject,identifier)
@@ -122,17 +167,18 @@ def create_app(settings=None):
             await app.state.security.client.aclose()
     app=FastAPI(title='STEGO Backend V1',version='1.0.0',lifespan=lifespan)
     app.add_middleware(Gate,service=app)
-    @app.get('/health', response_model=ServiceHealth)
+    @app.get('/health', response_model=ServiceHealth, tags=['Operación'])
     async def health():return {'status':'ok','service':'stego'}
     @app.post(
         '/api/v1/steganography/analyze',
         response_model=AnalysisResult,
+        tags=['Esteganografía'],
         responses={
             **AUTHORIZATION_ERRORS,
-            400: upload_error('Formulario inválido o PNG corrupto'),
-            413: upload_error('Carga o dimensiones excesivas'),
-            415: upload_error('Formato no admitido'),
-            503: upload_error('AUTH, capacidad o procesamiento no disponibles'),
+            400: upload_error('Formulario inválido o PNG corrupto', 'Formulario multipart inválido', 'PNG corrupto o inseguro'),
+            413: upload_error('Carga o dimensiones excesivas', 'Archivo excesivo', 'Dimensiones excesivas'),
+            415: upload_error('Formato no admitido', 'Firma de archivo no PNG', 'Solo PNG de 8 bits L/RGB/RGBA'),
+            503: upload_error('AUTH, capacidad o procesamiento no disponibles', 'No se pudo comprobar la autorización vigente', 'Tiempo de procesamiento agotado'),
         },
         openapi_extra={
             'security': [{'BearerAuth': []}],
@@ -185,10 +231,11 @@ def create_app(settings=None):
     @app.get(
         '/api/v1/steganography/results/{analysis_id}',
         response_model=AnalysisResult,
+        tags=['Esteganografía'],
         responses={
             **AUTHORIZATION_ERRORS,
-            400: api_error('Identificador de análisis inválido'),
-            404: api_error('Análisis no encontrado'),
+            400: api_error('Identificador de análisis inválido', 'Identificador de análisis inválido'),
+            404: api_error('Análisis no encontrado', 'Análisis no encontrado'),
         },
         openapi_extra={'security': [{'BearerAuth': []}]},
     )
@@ -198,7 +245,16 @@ def create_app(settings=None):
         return row
     original=app.openapi
     def schema():
-        doc=original();doc.setdefault('components',{}).setdefault('securitySchemes',{})['BearerAuth']={'type':'http','scheme':'bearer','bearerFormat':'JWT'}
+        doc = original()
+        components = doc.setdefault('components', {})
+        components.setdefault('securitySchemes', {})['BearerAuth'] = {
+            'type': 'http', 'scheme': 'bearer', 'bearerFormat': 'JWT',
+        }
+        # El middleware interpreta el UUID y responde 400 antes del parámetro str.
+        lookup = doc['paths']['/api/v1/steganography/results/{analysis_id}']['get']
+        lookup['responses'].pop('422', None)
+        for unused in ('HTTPValidationError', 'ValidationError'):
+            components.get('schemas', {}).pop(unused, None)
         return doc
     app.openapi=schema
     return app

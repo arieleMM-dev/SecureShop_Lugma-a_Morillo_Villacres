@@ -1,0 +1,22 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/roles/{{role_id}}"
+  method: GET
+  headers:
+    Authorization: Bearer {{access_token}}
+response:
+  statusCode: 500
+  statusText: Internal Server Error
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "statusCode": 500,
+        "message": "Error interno",
+        "timestamp": "2026-11-04T12:00:00.000Z",
+        "path": "/api/v1/roles/{id}",
+        "requestId": "ejemplo-auth"
+      }
+order: 7000

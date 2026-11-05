@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base_url}}/users/{{user_id}}"
+method: GET
+headers:
+  Authorization: Bearer {{access_token}}
+order: 7000
+examples: ./.resources/Consultar usuario.resources/examples

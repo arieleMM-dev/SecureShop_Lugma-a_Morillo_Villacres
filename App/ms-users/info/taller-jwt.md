@@ -1,6 +1,8 @@
+> Referencia histórica del taller del profesor. La API de esta entrega se describe en [OpenAPI AUTH](../../docs/contratos/openapi-auth.json) y en el [guion vigente](../../docs/05_guion_sustentacion_postman.md).
+
 # Implementación de JWT
 En esta implementación los roles no se definirán dentro del JWT como fuente de autorización. El JWT identificará al usuario mediante sub; después, en cada petición protegida, NestJS consultará:
-![Flujo de consulta](images\diagram.png)
+![Flujo de consulta](images/diagram.png)
 
 y únicamente los roles con `user_roles.estado = true` y `roles.estado = true` serán utilizados por `RolesGuard`. De esta forma, si se retira un rol en PostgreSQL, el cambio se aplica en la siguiente petición aunque el JWT todavía no haya expirado.
 
@@ -8,7 +10,7 @@ y únicamente los roles con `user_roles.estado = true` y `roles.estado = true` s
 
 ## Arquitectura que vamos a implementar
 El flujo será:
-![texto alt](images\flujo.png)
+![texto alt](images/flujo.png)
 
 ### El JWT NO será la fuente de roles
 El token tendrá solamente:

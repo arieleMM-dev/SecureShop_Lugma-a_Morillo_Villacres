@@ -1,0 +1,8 @@
+$kind: http-request
+description: Usa analysis_id guardado por Analizar imagen. En Headers prueba con analyst_token, other_analyst_token o access_token.
+url: "{{stego_url}}/api/v1/steganography/results/{{analysis_id}}"
+method: GET
+headers:
+  Authorization: Bearer {{analyst_token}}
+examples: ./.resources/Consultar resultado.resources/examples
+order: 2000

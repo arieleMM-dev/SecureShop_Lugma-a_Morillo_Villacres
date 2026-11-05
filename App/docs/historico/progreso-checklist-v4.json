@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-05",
+  "completed": [
+    "P09"
+  ],
+  "new_count": 1,
+  "source_sha256": "fe7f3c387a76bc277412a8c4dbe0ea5c49f2fdfd1f8d91ee3cd2b2a3cf5e0519",
+  "result_sha256": "2f57dcb5d31f08670ac4535e591314a2bb88d90c308352b156a0df1cf9d54223",
+  "change": "Solo se marcó P09 al comprobar separación real y procesamiento de imágenes.",
+  "pending": "P01-P08 corresponden a presentación y demostración por el equipo."
+}

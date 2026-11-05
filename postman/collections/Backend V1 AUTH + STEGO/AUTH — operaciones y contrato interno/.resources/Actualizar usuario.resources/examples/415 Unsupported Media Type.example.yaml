@@ -1,0 +1,29 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/users/{{user_id}}"
+  method: PATCH
+  headers:
+    Authorization: Bearer {{access_token}}
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "nombres": "Pedro Alejandro"
+      }
+response:
+  statusCode: 415
+  statusText: Unsupported Media Type
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "statusCode": 415,
+        "message": "Codificación no admitida",
+        "timestamp": "2026-11-04T12:00:00.000Z",
+        "path": "/api/v1/users/{id}",
+        "requestId": "ejemplo-auth"
+      }
+order: 8000

@@ -1,0 +1,26 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/users/cedula/1712345678"
+  method: GET
+  headers:
+    Authorization: Bearer {{access_token}}
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "87d1619e-af9e-4f57-84f2-f93f04690812",
+        "cedula": "1799999001",
+        "nombres": "Cuenta",
+        "apellidos": "Demostracion",
+        "fechaNacimiento": "1998-04-18",
+        "username": "amendoza",
+        "email": "analista@example.com",
+        "telefono": "0990009001",
+        "estado": true
+      }
+order: 1000

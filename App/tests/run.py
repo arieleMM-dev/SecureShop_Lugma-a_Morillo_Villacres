@@ -18,6 +18,17 @@ with tempfile.TemporaryDirectory(prefix='stego-test-') as directory:
         compose('up','-d','--build','--wait','--wait-timeout','120')
         compose('exec','-T','auth','node','dist/database/seed.js')
         env={**os.environ,'BACKEND_TEST_PROJECT':project,'BACKEND_TEST_OVERRIDE':str(override)}
+        if '--postman' in sys.argv:
+            evidence=ROOT/'docs/pruebas/resultados/postman-coleccion.txt'
+            with evidence.open('w',encoding='utf-8') as output:
+                postman=subprocess.run(
+                    [sys.executable,str(ROOT/'tests/postman.py')],
+                    cwd=ROOT,env=env,stdout=output,stderr=subprocess.STDOUT,
+                )
+            if postman.returncode:
+                raise RuntimeError('Falló Postman; revisar '+str(evidence))
+            compose('restart','auth')
+            compose('up','-d','--wait','auth')
         subprocess.run([sys.executable,str(ROOT/'tests/integration.py')],cwd=ROOT,env=env,check=True)
     finally:
         # El nombre aleatorio creado arriba es el único objetivo de limpieza.

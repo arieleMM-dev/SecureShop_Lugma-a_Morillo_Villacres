@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base_url}}/auth/logout"
+method: POST
+headers:
+  Authorization: Bearer {{access_token}}
+order: 21000
+examples: ./.resources/Logout.resources/examples

@@ -1,0 +1,22 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/auth/logout"
+  method: POST
+  headers:
+    Authorization: Bearer {{access_token}}
+response:
+  statusCode: 413
+  statusText: Request Entity Too Large
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "statusCode": 413,
+        "message": "Carga excesiva",
+        "timestamp": "2026-11-04T12:00:00.000Z",
+        "path": "/api/v1/auth/logout",
+        "requestId": "ejemplo-auth"
+      }
+order: 3000

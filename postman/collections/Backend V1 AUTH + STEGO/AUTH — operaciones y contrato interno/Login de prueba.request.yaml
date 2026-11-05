@@ -1,0 +1,30 @@
+$kind: http-request
+description: En Body cambia identifier a amendoza, mgomez o cvega. Usa seed_password para esas cuentas. Para una cuenta nueva usa new_user_password. El login guarda el JWT en la variable de esa cuenta.
+url: "{{base_url}}/auth/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "identifier": "amendoza",
+      "password": "{{seed_password}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Login correcto', () => pm.response.to.have.status(200));
+      if (pm.response.code === 200) {
+        const session = pm.response.json();
+        const tokenKeys = new Map([
+          ['amendoza', 'analyst_token'],
+          ['mgomez', 'user_token'],
+          ['cvega', 'other_analyst_token'],
+        ]);
+        const tokenKey = tokenKeys.get(session.user.username) || 'demo_token';
+        pm.collectionVariables.set(tokenKey, session.accessToken);
+      }
+    language: text/javascript
+examples: ./.resources/Login de prueba.resources/examples
+order: 3000

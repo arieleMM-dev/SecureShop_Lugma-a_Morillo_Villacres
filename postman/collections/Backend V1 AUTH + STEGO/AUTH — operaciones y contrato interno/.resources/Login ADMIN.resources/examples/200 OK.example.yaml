@@ -1,0 +1,35 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/auth/login"
+  method: POST
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "identifier": "jperez",
+        "password": "{{seed_password}}"
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "accessToken": "<JWT>",
+        "tokenType": "Bearer",
+        "expiresIn": 900,
+        "user": {
+          "id": "87d1619e-af9e-4f57-84f2-f93f04690812",
+          "username": "jperez",
+          "email": "admin@example.com",
+          "roles": [
+            "ADMIN"
+          ]
+        }
+      }
+order: 1000

@@ -1,0 +1,31 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/roles"
+  method: POST
+  headers:
+    Authorization: Bearer {{access_token}}
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "rol": "SUPERVISOR",
+        "description": "Rol de ejemplo sin permisos de análisis",
+        "estado": true
+      }
+response:
+  statusCode: 415
+  statusText: Unsupported Media Type
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "statusCode": 415,
+        "message": "Codificación no admitida",
+        "timestamp": "2026-11-04T12:00:00.000Z",
+        "path": "/api/v1/roles",
+        "requestId": "ejemplo-auth"
+      }
+order: 7000

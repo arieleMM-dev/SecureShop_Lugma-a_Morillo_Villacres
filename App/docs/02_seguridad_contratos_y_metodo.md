@@ -46,6 +46,21 @@ Cada instancia STEGO está limitada a dos trabajos; SQLite y el volumen local co
 
 Los JSON son los contratos completos, importables por separado. En AUTH, `page` y `limit` son opcionales, con valores iniciales 1 y 20. Los esquemas documentan resultados, páginas, asignaciones y el formato del filtro global de errores. STEGO documenta el cuerpo multipart y los errores, incluida la respuesta con `analysis_id` cuando se registra un análisis fallido. En una operación protegida, 401 indica que no se autenticó la solicitud, 403 que la sesión carece de permiso, 502 que la decisión de AUTH no se pudo verificar y 503 que el servicio no pudo completar la autorización o el procesamiento.
 
+### Respuestas para la demostración
+
+FastAPI genera el contrato de STEGO en `/openapi.json` y lo muestra en Swagger UI en `/docs`. AUTH usa NestJS para servir su contrato y su Swagger. Postman usa una colección de solicitudes guardadas para encadenar login, análisis y consulta durante la sustentación. Swagger y los JSON exportados comparten las definiciones del código. Los ejemplos de Postman provienen del contrato. El contrato de STEGO agrupa sus dos operaciones de negocio en **Esteganografía** y `GET /health` en **Operación**. La decisión interna se documenta en AUTH y se ejecuta desde STEGO.
+
+| Operación | Éxito y tipo de cuerpo | Rechazos que muestra la colección |
+|---|---|---|
+| Login y consultas de AUTH | `200` con JSON | `400` si corresponde a validación, `401` por credenciales o sesión, `403` por permisos y `404` si aplica al recurso. |
+| Creación de usuario, rol o asignación | `201` con JSON del recurso creado | `400` entrada inválida, `401` sesión, `403` permiso y `409` conflicto. Al asignar también aplica `404` por usuario o rol inexistente. |
+| Actualización de usuario o rol | `200` con JSON actualizado | `400`, `401`, `403`, `404` y `409`. |
+| Retiro de asignación, eliminación o logout | `204` sin cuerpo | Los errores mantienen el JSON de AUTH con `statusCode`, `message`, `path` y `requestId` cuando está disponible. |
+| Analizar imagen con ANALYST o ADMIN | `200` con el análisis | `400` petición o PNG corrupto, `401` autenticación, `403` permiso, `413` tamaño, `415` formato, `502` decisión no verificable y `503` indisponibilidad. |
+| Consultar resultado | `200` con el análisis | `400` ID inválido, `401` autenticación, `403` permiso o propiedad, `404` resultado inexistente, `502` y `503` para fallas de autorización. |
+
+AUTH responde `429` cuando supera el límite y las APIs documentan `500` en sus operaciones protegidas para un fallo interno. STEGO devuelve `{"detail": "..."}` para los rechazos previos al análisis. Si el procesamiento alcanzó a registrar un error, la respuesta incluye también `analysis_id` y los datos del registro con `status: error`. La consulta interna de AUTH responde `200` con `allowed: true` o `false` cuando la decisión fue válida. STEGO traduce la denegación en `403` al cliente.
+
 Regeneración desde `App/ms-users` con `npm run docs:openapi`. Desde `App/ms-stego`, con el entorno Python de pruebas activo, ejecutar `python -m scripts.export_openapi`. Ambas herramientas escriben en `App/docs/contratos`.
 
 ## Método de análisis esteganográfico

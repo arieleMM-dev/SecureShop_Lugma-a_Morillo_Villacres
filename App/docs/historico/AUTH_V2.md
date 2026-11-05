@@ -138,7 +138,7 @@ Base de desarrollo: http://localhost:3001/api/v1; base HTTPS: https://localhost:
 
 Validación estricta y rechazo de propiedades inesperadas; UUID válidos; paginación de 1 a 100 registros. Los nombres de roles se normalizan a mayúsculas; un CHECK de PostgreSQL impide guardar variantes en minúsculas por SQL directo. Username/email se normalizan a minúsculas.
 
-El [contrato OpenAPI vigente](../contratos/openapi-auth.json) documenta AUTH. Swagger de desarrollo está en /docs y /docs-json. La [colección conjunta](../pruebas/backend-v1.postman_collection.json) contiene las solicitudes; configurar los valores locales de seed_password y service_token, y confiar en secrets/ca.crt en el cliente REST. No desactivar la comprobación de certificados. No exportar ni compartir los valores locales de esas variables o del access_token.
+El [contrato OpenAPI vigente](../contratos/openapi-auth.json) documenta AUTH. Swagger de desarrollo está en /docs y /docs-json. La [colección conjunta](../pruebas/backend-v1.postman_collection.json) contiene las solicitudes; configurar el valor local de seed_password y confiar en secrets/ca.crt en el cliente REST. La autorización interna se observa en auditoría. No desactivar la comprobación de certificados. No exportar ni compartir los valores locales de esas variables o del access_token.
 
 ## Auditoría
 

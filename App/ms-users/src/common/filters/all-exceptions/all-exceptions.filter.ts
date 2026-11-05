@@ -26,11 +26,25 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const isHttpException = exception instanceof HttpException;
 
+    const parserErrors: Record<string, { status: number; message: string }> = {
+      'entity.too.large': { status: 413, message: 'Carga excesiva' },
+      'entity.parse.failed': { status: 400, message: 'Cuerpo de solicitud inválido' },
+      'encoding.unsupported': { status: 415, message: 'Codificación no admitida' },
+      'charset.unsupported': { status: 415, message: 'Codificación de caracteres no admitida' },
+      'request.aborted': { status: 400, message: 'Solicitud interrumpida' },
+      'request.size.invalid': { status: 400, message: 'Tamaño de solicitud inválido' },
+    };
+    const parserType =
+      exception instanceof Error && 'type' in exception && typeof exception.type === 'string'
+        ? exception.type
+        : undefined;
+    const parserError = parserType ? parserErrors[parserType] : undefined;
+
     const status = isHttpException
       ? exception.getStatus()
-      : HttpStatus.INTERNAL_SERVER_ERROR;
+      : (parserError?.status ?? HttpStatus.INTERNAL_SERVER_ERROR);
 
-    let message: string | string[] = 'Internal server error';
+    let message: string | string[] = parserError?.message ?? 'Internal server error';
 
     if (isHttpException) {
       const exceptionResponse = exception.getResponse();

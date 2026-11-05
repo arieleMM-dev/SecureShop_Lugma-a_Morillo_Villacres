@@ -7,7 +7,6 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "deploy": "nest deploy",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -34,7 +33,7 @@
     "@nestjs/jwt": "^12.0.3",
     "@nestjs/mapped-types": "^12.0.0",
     "@nestjs/passport": "^12.0.0",
-    "@nestjs/platform-express": "^12.0.1",
+    "@nestjs/platform-express": "^12.3.3",
     "@nestjs/swagger": "^12.0.2",
     "@nestjs/throttler": "^6.7.1",
     "@nestjs/typeorm": "^12.0.2",
@@ -52,7 +51,6 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^12.0.0",
-    "@nestjs/mau": "^0.2.6",
     "@nestjs/schematics": "^12.0.0",
     "@nestjs/testing": "^12.0.1",
     "@types/express": "^5.0.0",
@@ -71,5 +69,9 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^6.0.2",
     "@types/passport-jwt": "^4.0.1"
+  },
+  "overrides": {
+    "glob": "^14.0.2",
+    "minimatch": "^11.0.1"
   }
 }

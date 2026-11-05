@@ -55,4 +55,7 @@ npm run docs:openapi
 
 `test:docker` requiere haber ejecutado env:init. Crea un PostgreSQL temporal con contraseña y puerto aleatorios, ejecuta las pruebas en una base nueva y elimina ese contenedor. No usa vuestra base del .env. `test:integration` permite utilizar TEST_DB_HOST, TEST_DB_PORT, TEST_DB_USER y TEST_DB_PASSWORD con RUN_DB_TESTS=1; la cuenta debe poder crear bases. Las pruebas omiten todos sus casos si no se habilita RUN_DB_TESTS.
 
-El código y la documentación se comparten con git desde SSeguro; no hay un repositorio Git anidado. Cada compañero ejecuta npm ci y env:init para obtener su configuración local. El checklist inicial se conserva; la copia 02 solo cambia casillas cumplidas y mantiene pendientes las tareas que requieren STEGO o la entrega conjunta.
+El código y la documentación se comparten con git desde SSeguro; no hay un repositorio Git anidado. Cada compañero ejecuta npm ci y env:init para obtener su configuración local. Los checklists de cada fase están en [histórico](../docs/historico/README.md). La fase 02 corresponde a AUTH; la fase 03 incorpora STEGO y la integración. La auditoría final registra la comprobación técnica de la entrega.
+
+
+Las dependencias se fijan con `package-lock.json`. Se validaron los overrides de desarrollo de `glob` y `minimatch` con Node.js 24 en Docker. El auxiliar de despliegue cloud del scaffold se retiró porque la entrega se ejecuta con Compose. La revisión de dependencias y su riesgo restante se describen en la [matriz de riesgos](../docs/03_matriz_riesgos.md#dependencias-y-entorno-de-desarrollo).

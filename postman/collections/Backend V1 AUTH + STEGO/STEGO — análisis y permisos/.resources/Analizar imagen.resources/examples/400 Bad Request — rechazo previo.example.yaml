@@ -1,0 +1,25 @@
+$kind: http-example
+request:
+  url: "{{stego_url}}/api/v1/steganography/analyze"
+  method: POST
+  headers:
+    Authorization: Bearer {{analyst_token}}
+  body:
+    type: formdata
+    content:
+      - type: file
+        key: file
+        src: original_control.png
+        description: Archivo local relativo a la carpeta de trabajo App/docs/pruebas/muestras.
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "detail": "Formulario multipart inválido"
+      }
+order: 2000

@@ -1,0 +1,24 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/users/{{user_id}}"
+  method: GET
+  headers:
+    Authorization: Bearer {{access_token}}
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "statusCode": 400,
+        "message": [
+          "Entrada o parámetro inválido"
+        ],
+        "timestamp": "2026-11-04T12:00:00.000Z",
+        "path": "/api/v1/users/{id}",
+        "requestId": "ejemplo-auth"
+      }
+order: 2000

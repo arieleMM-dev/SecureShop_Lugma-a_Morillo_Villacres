@@ -1,0 +1,30 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/roles"
+  method: POST
+  headers:
+    Authorization: Bearer {{access_token}}
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "rol": "SUPERVISOR",
+        "description": "Rol de ejemplo sin permisos de análisis",
+        "estado": true
+      }
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "d42d2919-4ed3-4c9d-9205-55adbb7bdb82",
+        "rol": "ANALYST",
+        "description": "Rol de análisis",
+        "estado": true
+      }
+order: 1000

@@ -1,0 +1,21 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/roles/{{role_id}}"
+  method: GET
+  headers:
+    Authorization: Bearer {{access_token}}
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "d42d2919-4ed3-4c9d-9205-55adbb7bdb82",
+        "rol": "ANALYST",
+        "description": "Rol de análisis",
+        "estado": true
+      }
+order: 1000

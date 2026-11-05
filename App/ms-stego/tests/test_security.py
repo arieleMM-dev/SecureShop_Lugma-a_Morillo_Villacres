@@ -38,3 +38,24 @@ def test_permission_denial_does_not_read_or_parse_upload():
     receive.assert_not_called(); downstream.assert_not_called()
     assert send.call_args_list[0].args[0]['status']==403
     assert store.audit.call_args.args[4]==403
+
+
+@pytest.mark.parametrize('identifier', [
+    '8cfc57d0-facc-1974-a11b-1d3b1f7b9853',
+    '8cfc57d0-facc-6974-a11b-1d3b1f7b9853',
+])
+def test_result_id_does_not_rewrite_uuid_version(identifier):
+    security = SimpleNamespace(identify=lambda _: ('token', SUBJECT), authorize=AsyncMock())
+    store = SimpleNamespace(get=MagicMock(), audit=MagicMock())
+    service = SimpleNamespace(state=SimpleNamespace(security=security, store=store))
+    downstream, receive, send = AsyncMock(), AsyncMock(), AsyncMock()
+    scope = {
+        'type': 'http',
+        'method': 'GET',
+        'path': '/api/v1/steganography/results/' + identifier,
+        'headers': [],
+    }
+    asyncio.run(Gate(downstream, service)(scope, receive, send))
+    assert send.call_args_list[0].args[0]['status'] == 400
+    store.get.assert_not_called()
+    security.authorize.assert_not_called()

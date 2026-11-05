@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base_url}}/user-roles/user/{{user_id}}"
+method: GET
+headers:
+  Authorization: Bearer {{access_token}}
+order: 17000
+examples: ./.resources/Consultar asignaciones.resources/examples

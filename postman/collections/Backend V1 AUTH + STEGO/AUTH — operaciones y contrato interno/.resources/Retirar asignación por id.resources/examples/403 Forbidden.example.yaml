@@ -1,0 +1,22 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/user-roles/{{assignment_id}}"
+  method: DELETE
+  headers:
+    Authorization: Bearer {{access_token}}
+response:
+  statusCode: 403
+  statusText: Forbidden
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "statusCode": 403,
+        "message": "La sesión no tiene permiso",
+        "timestamp": "2026-11-04T12:00:00.000Z",
+        "path": "/api/v1/user-roles/{id}",
+        "requestId": "ejemplo-auth"
+      }
+order: 4000

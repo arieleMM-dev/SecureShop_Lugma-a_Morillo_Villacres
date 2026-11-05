@@ -599,8 +599,25 @@ run('30 OpenAPI incluye contratos y esquemas de seguridad', async () => {
     assert.ok(schema.paths[route], route);
   assert.ok(schema.components.schemas.CheckAuthorizationDto);
 });
+run('31 cuerpo JSON excesivo devuelve 413 con error estructurado', async () => {
+  const response = await api('post', '/auth/login')
+    .set('Content-Type', 'application/json')
+    .send('{' + ' '.repeat(150000) + '}');
+  assert.equal(response.status, 413);
+  assert.equal(response.body.statusCode, 413);
+  assert.equal(typeof response.body.message, 'string');
+});
+
+run('32 codificación de cuerpo no admitida devuelve 415', async () => {
+  const response = await api('post', '/auth/login')
+    .set('Content-Type', 'application/json')
+    .set('Content-Encoding', 'unsupported-encoding')
+    .send('{}');
+  assert.equal(response.status, 415);
+  assert.equal(response.body.statusCode, 415);
+});
 run(
-  '31 migración V2 preserva registros y asignaciones de V1; reversión',
+  '33 migración V2 preserva registros y asignaciones de V1; reversión',
   async () => {
     await new Promise((resolve) => tls.close(resolve));
     await app.close();
@@ -632,7 +649,7 @@ run(
   },
 );
 run(
-  '32 seed ADMIN/ANALYST/USER repetible sin cambiar cuentas existentes',
+  '34 seed ADMIN/ANALYST/USER repetible sin cambiar cuentas existentes',
   async () => {
     const { spawnSync } = require('node:child_process');
     for (let i = 0; i < 2; i++) {

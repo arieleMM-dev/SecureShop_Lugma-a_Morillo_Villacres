@@ -1,0 +1,30 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/user-roles/user/{{user_id}}"
+  method: GET
+  headers:
+    Authorization: Bearer {{access_token}}
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "id": "556a6466-9615-4ad2-841a-8f69006b3c18",
+          "userId": "87d1619e-af9e-4f57-84f2-f93f04690812",
+          "roleId": "d42d2919-4ed3-4c9d-9205-55adbb7bdb82",
+          "fechaAsignacion": "2026-11-04T12:00:00.000Z",
+          "estado": true,
+          "role": {
+            "id": "d42d2919-4ed3-4c9d-9205-55adbb7bdb82",
+            "rol": "ANALYST",
+            "description": "Rol de análisis",
+            "estado": true
+          }
+        }
+      ]
+order: 1000

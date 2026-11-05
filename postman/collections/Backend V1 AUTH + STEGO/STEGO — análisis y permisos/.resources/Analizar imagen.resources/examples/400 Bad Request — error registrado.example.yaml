@@ -1,0 +1,35 @@
+$kind: http-example
+request:
+  url: "{{stego_url}}/api/v1/steganography/analyze"
+  method: POST
+  headers:
+    Authorization: Bearer {{analyst_token}}
+  body:
+    type: formdata
+    content:
+      - type: file
+        key: file
+        src: original_control.png
+        description: Archivo local relativo a la carpeta de trabajo App/docs/pruebas/muestras.
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "analysis_id": "8dcfac51-4119-493a-843a-342b9d0c49b6",
+        "user_id": "95fcc5ba-63c3-404d-b4de-0d7e8ec12aa0",
+        "filename": "archivo.png",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "technique": "pov_pearson_lsb_png8_v1",
+        "indicators": {},
+        "created_at": "2026-11-04T22:56:51.298997+00:00",
+        "status": "error",
+        "action": "cuarentena",
+        "limitations": "Indicio estadístico de equiprobabilidad LSB, no prueba de esteganografía. Puede fallar con ruido, baja carga, LSB matching y otras técnicas. No analiza JPEG, metadatos ni cargas cifradas como tales.",
+        "detail": "PNG corrupto o inseguro"
+      }
+order: 3000

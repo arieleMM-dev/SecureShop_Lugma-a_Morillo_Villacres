@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base_url}}/users/cedula/1712345678"
+method: GET
+headers:
+  Authorization: Bearer {{access_token}}
+order: 8000
+examples: ./.resources/Consultar cédula.resources/examples

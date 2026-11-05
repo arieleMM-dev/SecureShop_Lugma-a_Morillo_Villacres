@@ -1,0 +1,25 @@
+$kind: http-example
+request:
+  url: "{{stego_url}}/api/v1/steganography/analyze"
+  method: POST
+  headers:
+    Authorization: Bearer {{analyst_token}}
+  body:
+    type: formdata
+    content:
+      - type: file
+        key: file
+        src: original_control.png
+        description: Archivo local relativo a la carpeta de trabajo App/docs/pruebas/muestras.
+response:
+  statusCode: 403
+  statusText: Forbidden
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "detail": "No posee permiso para esta operación"
+      }
+order: 5000

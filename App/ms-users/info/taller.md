@@ -1,3 +1,5 @@
+> Referencia histórica del taller del profesor. La API de esta entrega se describe en [OpenAPI AUTH](../../docs/contratos/openapi-auth.json) y en el [guion vigente](../../docs/05_guion_sustentacion_postman.md).
+
 # Taller Sincrónico
 
 ## Creación de DTO's

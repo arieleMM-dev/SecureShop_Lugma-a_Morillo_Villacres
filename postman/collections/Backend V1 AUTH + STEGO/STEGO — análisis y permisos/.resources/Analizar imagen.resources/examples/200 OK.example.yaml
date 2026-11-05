@@ -1,0 +1,40 @@
+$kind: http-example
+request:
+  url: "{{stego_url}}/api/v1/steganography/analyze"
+  method: POST
+  headers:
+    Authorization: Bearer {{analyst_token}}
+  body:
+    type: formdata
+    content:
+      - type: file
+        key: file
+        src: original_control.png
+        description: Archivo local relativo a la carpeta de trabajo App/docs/pruebas/muestras.
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "action": "cuarentena",
+        "analysis_id": "8dcfac51-4119-493a-843a-342b9d0c49b6",
+        "created_at": "2026-11-04T22:56:51.298997+00:00",
+        "filename": "oculta_lsb.png",
+        "indicators": {
+          "alpha": 0.05,
+          "chi_square": 125.296875,
+          "eligible_pairs": 128,
+          "equiprobability_p_value": 0.5510812305839959,
+          "sample_count": 196608
+        },
+        "limitations": "Indicio estadístico de equiprobabilidad LSB, no prueba de esteganografía. Puede fallar con ruido, baja carga, LSB matching y otras técnicas. No analiza JPEG, metadatos ni cargas cifradas como tales.",
+        "sha256": "212985d37f143c8bcdd2a4cb276062f53687de556ac5ad39fca0f0f2ffa4551d",
+        "status": "sospechoso",
+        "technique": "pov_pearson_lsb_png8_v1",
+        "user_id": "95fcc5ba-63c3-404d-b4de-0d7e8ec12aa0"
+      }
+order: 1000

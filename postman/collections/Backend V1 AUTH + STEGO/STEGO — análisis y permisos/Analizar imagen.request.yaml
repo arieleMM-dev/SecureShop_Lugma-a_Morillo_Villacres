@@ -1,0 +1,22 @@
+$kind: http-request
+description: En Headers elige el JWT. En Body elige un PNG de la carpeta de trabajo. Para 401 o 403 puedes usar Body → none. Un resultado 200 guarda analysis_id.
+url: "{{stego_url}}/api/v1/steganography/analyze"
+method: POST
+headers:
+  Authorization: Bearer {{analyst_token}}
+body:
+  type: formdata
+  content:
+    - type: file
+      key: file
+      src: original_control.png
+      description: Archivo local relativo a la carpeta de trabajo App/docs/pruebas/muestras.
+scripts:
+  - type: afterResponse
+    code: |-
+      if (pm.response.code === 200) {
+        pm.collectionVariables.set('analysis_id', pm.response.json().analysis_id);
+      }
+    language: text/javascript
+examples: ./.resources/Analizar imagen.resources/examples
+order: 1000

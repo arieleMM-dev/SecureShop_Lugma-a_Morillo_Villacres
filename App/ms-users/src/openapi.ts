@@ -23,8 +23,48 @@ const errorDescriptions: Record<number, string> = {
   403: 'La sesión no tiene permiso',
   404: 'Entidad no encontrada',
   409: 'Conflicto de unicidad',
+  413: 'Carga excesiva',
+  415: 'Codificación no admitida',
   429: 'Límite de solicitudes excedido',
   500: 'Error interno',
+};
+
+const exampleTime = '2026-11-04T12:00:00.000Z';
+const exampleUserId = '87d1619e-af9e-4f57-84f2-f93f04690812';
+const exampleRoleId = 'd42d2919-4ed3-4c9d-9205-55adbb7bdb82';
+const exampleRole = { id: exampleRoleId, rol: 'ANALYST', description: 'Rol de análisis', estado: true };
+const exampleUser = {
+  id: exampleUserId,
+  cedula: '1799999001',
+  nombres: 'Cuenta',
+  apellidos: 'Demostracion',
+  fechaNacimiento: '1998-04-18',
+  username: 'amendoza',
+  email: 'analista@example.com',
+  telefono: '0990009001',
+  estado: true,
+};
+const exampleAssignment = {
+  id: '556a6466-9615-4ad2-841a-8f69006b3c18',
+  userId: exampleUserId,
+  roleId: exampleRoleId,
+  fechaAsignacion: exampleTime,
+  estado: true,
+};
+const examplePage = { page: 1, limit: 20, total: 1, totalPages: 1 };
+const examples: Record<string, unknown> = {
+  Health: { status: 'ok', service: 'user-service', timestamp: exampleTime },
+  User: exampleUser,
+  Role: exampleRole,
+  Assignment: exampleAssignment,
+  UsersPage: { data: [exampleUser], meta: examplePage },
+  RolesPage: { data: [exampleRole], meta: examplePage },
+};
+const exampleProfile = {
+  userId: exampleUserId,
+  username: exampleUser.username,
+  email: exampleUser.email,
+  roles: ['ANALYST'],
 };
 
 export function createAuthOpenApi(app: INestApplication): OpenAPIObject {
@@ -76,6 +116,7 @@ export function createAuthOpenApi(app: INestApplication): OpenAPIObject {
       const login = path.endsWith('/login');
       const internal = path === '/internal/authorization/check';
       const errors = [429, 500];
+      if (method === 'post' || method === 'patch') errors.push(413, 415);
       if (!health) errors.push(401);
       if (admin) errors.push(403);
       if (admin || login || internal) errors.push(400);
@@ -85,7 +126,18 @@ export function createAuthOpenApi(app: INestApplication): OpenAPIObject {
         const previous = operation.responses[code];
         operation.responses[code] = {
           description: previous && 'description' in previous ? previous.description : errorDescriptions[code],
-          content: { 'application/json': { schema: ref('AuthError') } },
+          content: {
+            'application/json': {
+              schema: ref('AuthError'),
+              example: {
+                statusCode: code,
+                message: code === 400 ? ['Entrada o parámetro inválido'] : errorDescriptions[code],
+                timestamp: exampleTime,
+                path,
+                requestId: 'ejemplo-auth',
+              },
+            },
+          },
         };
       }
 
@@ -101,10 +153,38 @@ export function createAuthOpenApi(app: INestApplication): OpenAPIObject {
       if (path.includes('/roles')) result = ref(path.endsWith('/roles') && method === 'get' ? 'RolesPage' : 'Role');
       if (path.includes('/user-roles')) result = method === 'get' ? array(ref('Assignment')) : ref('Assignment');
       if (result && method !== 'delete') {
+        const example = '$ref' in result
+          ? examples[result.$ref.split('/').pop() ?? '']
+          : [{ ...exampleAssignment, role: exampleRole }];
         operation.responses[method === 'post' ? 201 : 200] = {
-          description: 'Operación exitosa',
-          content: { 'application/json': { schema: result } },
+          description: method === 'post' ? 'Recurso creado' : 'Operación exitosa',
+          content: { 'application/json': { schema: result, example } },
         };
+      }
+
+      const success = operation.responses[200];
+      if (success && 'content' in success && success.content?.['application/json']) {
+        const json = success.content['application/json'];
+        if (login) {
+          json.example = {
+            accessToken: '<JWT>',
+            tokenType: 'Bearer',
+            expiresIn: 900,
+            user: { id: exampleUserId, username: exampleUser.username, email: exampleUser.email, roles: ['ANALYST'] },
+          };
+        } else if (path.endsWith('/profile') || path.endsWith('/me')) {
+          json.example = exampleProfile;
+        } else if (internal) {
+          const decision = {
+            subject_id: exampleUserId,
+            action: 'steganography.analyze',
+            resource_id: null,
+          };
+          json.examples = {
+            permitido: { value: { ...decision, allowed: true, reason: 'active_role_grants_permission' } },
+            denegado: { value: { ...decision, allowed: false, reason: 'active_role_does_not_grant_permission' } },
+          };
+        }
       }
       if (method === 'delete' || path.endsWith('/logout')) {
         operation.responses[204] = { description: 'Operación exitosa sin contenido' };

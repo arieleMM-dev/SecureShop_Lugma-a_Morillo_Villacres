@@ -1,7 +1,7 @@
 # 01. Análisis inicial y checklist del Proyecto Integrador - Primer Parcial
 
 **Asignatura:** Desarrollo Software Seguro, Departamento de Ciencias de la Computación, ESPE.  
-**Fuente única de requisitos:** [Proyecto_Integrador_Primer_Parcial.pdf](../../Teoria/Proyecto_Integrador_Primer_Parcial.pdf), sus ocho páginas, secciones 1-6 y anexos A-E.  
+**Fuente única de requisitos:** [Proyecto_Integrador_Primer_Parcial.pdf](../../../docs/Teoria/Proyecto_Integrador_Primer_Parcial.pdf), sus ocho páginas, secciones 1-6 y anexos A-E.  
 **Fecha de este análisis:** 02/11/2026.  
 **Entrega:** miércoles **04/11/2026, a la hora de clases**, con repositorio, documentación, evidencias y demostración durante la sesión. El PDF no establece una hora numérica.  
 **Calificación máxima:** 20 puntos.

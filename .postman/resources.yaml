@@ -1,0 +1,16 @@
+# Use this workspace to collaborate
+workspace:
+  id: ""
+
+localResources:
+  collections:
+    - ../App/docs/pruebas/backend-v1.postman_collection.json
+  specs:
+    - ../App/docs/contratos/openapi-auth.json
+    - ../App/docs/contratos/openapi-stego.json
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
+cloudResources:
+  collections:
+    ../postman/collections/Backend V1 AUTH + STEGO: 18379b9a-b1d0-4eef-b4f7-3cf4df73de60

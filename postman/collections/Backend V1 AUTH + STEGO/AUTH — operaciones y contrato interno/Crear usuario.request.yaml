@@ -1,0 +1,22 @@
+$kind: http-request
+url: "{{base_url}}/users"
+method: POST
+headers:
+  Authorization: Bearer {{access_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "cedula": "1712345678",
+      "nombres": "Pedro Andrés",
+      "apellidos": "Salazar Torres",
+      "fechaNacimiento": "1993-04-18",
+      "username": "psalazar",
+      "email": "psalazar@example.com",
+      "telefono": "0987654321",
+      "password": "{{new_user_password}}",
+      "estado": true
+    }
+order: 5000
+examples: ./.resources/Crear usuario.resources/examples

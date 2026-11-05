@@ -2,12 +2,14 @@
 
 Ejecutar los comandos de [App/README](../README.md#pruebas-reproducibles). La suite de integración construye dos imágenes independientes y utiliza PostgreSQL y SQLite reales, volúmenes nuevos y puertos temporales; se limpian solo esos recursos al finalizar. Las llamadas asíncronas de las pruebas unitarias de fallos utilizan respuestas simuladas para explorar decisiones inválidas sin modificar AUTH.
 
-## Resultados verificados el 04/11/2026
+## Resultados verificados el 05/11/2026
 
-- STEGO: **14 casos unitarios aprobados**, incluidos cálculo, carga LSB recuperable, retención, OpenAPI, siete formas de fallo/denegación de AUTH y rechazo antes de leer el cuerpo. [Salida](pruebas/resultados/stego-unitarias.txt).
-- Conjunto AUTH+STEGO: **14 comprobaciones integradas aprobadas**, que cubren los doce escenarios T01-T12 agrupando T05/T06 y añadiendo aislamiento, logout y persistencia. [Resultado con fecha de ejecución UTC](pruebas/resultados/integracion-auth-stego.json).
-- AUTH: [7 pruebas unitarias con Jest](pruebas/resultados/auth-unitarias.txt) y [32 pruebas funcionales/seguridad](pruebas/resultados/auth-funcionales-y-seguridad.txt), reejecutadas con el ejecutor de Node.js y PostgreSQL temporal para los casos funcionales y de seguridad.
+- STEGO: **16 casos unitarios aprobados**, incluidos cálculo, carga LSB recuperable, retención, OpenAPI, siete formas de fallo/denegación de AUTH y rechazo antes de leer el cuerpo. [Salida](pruebas/resultados/stego-unitarias.txt).
+- Conjunto AUTH+STEGO: **15 comprobaciones integradas aprobadas**, que cubren los doce escenarios T01-T12 agrupando T05/T06 y añadiendo aislamiento, logout y persistencia. [Resultado con fecha de ejecución UTC](pruebas/resultados/integracion-auth-stego.json).
+- AUTH: [7 pruebas unitarias con Jest](pruebas/resultados/auth-unitarias.txt) y [34 pruebas funcionales/seguridad](pruebas/resultados/auth-funcionales-y-seguridad.txt), reejecutadas con el ejecutor de Node.js y PostgreSQL temporal para los casos funcionales y de seguridad.
 - [Resultados completos por API de las cinco muestras](pruebas/resultados/stego-analisis-muestras.json), [verdad de construcción y métricas](pruebas/muestras/manifest.json) y [auditoría sin credenciales](pruebas/resultados/stego-auditoria.json).
+
+La colección simplificada se verifica con Postman CLI y bases temporales mediante el [ejecutor versionado](../tests/postman.py). El [registro del último ensayo](pruebas/resultados/postman-coleccion.txt) conserva su salida. La versión JSON ejecutó 22 solicitudes y 34 aserciones sin fallos. La versión YAML ejecutó el flujo de login, análisis y consulta. Las comprobaciones incluyeron análisis con ADMIN y ANALYST, rechazo con USER o JWT ausente, lectura ajena, entrada inválida, creación y eliminación con cuerpo vacío. También se compararon los contratos servidos por Swagger con ambos archivos OpenAPI exportados.
 
 La fecha UTC puede pertenecer al día siguiente de la fecha local Ecuador (UTC−5). Los UUID/horas cambian al repetir la suite; los hashes y cálculos de las imágenes generadas son reproducibles con las dependencias fijadas. Los usuarios de prueba se crean en una base temporal; los UUID publicados en evidencia no identifican cuentas del despliegue normal.
 
@@ -21,9 +23,17 @@ La consigna especifica escenarios y tipos de prueba. El equipo usa las herramien
 | Funcionales y seguridad AUTH | [Suite Node.js](../ms-users/test/integration.cjs) y [ejecutor con PostgreSQL temporal](../ms-users/scripts/test-db.cjs) | Carpeta `App/ms-users`, comando `npm run test:docker` |
 | Unitarias y seguridad STEGO | pytest en [núcleo](../ms-stego/tests/test_core.py) y [decisiones de autorización](../ms-stego/tests/test_security.py) | Carpeta `App/ms-stego`, comando `python -m pytest -q` con el entorno de prueba activo |
 | Integración del conjunto | [Runner Docker](../tests/run.py) y [solicitudes HTTPX](../tests/integration.py) | Carpeta `App`, comando `ms-stego/.venv/Scripts/python.exe tests/run.py` en Windows |
-| Ensayo manual | [Colección REST](pruebas/backend-v1.postman_collection.json) y [guion Postman](05_guion_sustentacion_postman.md) | Ejecutar las solicitudes en el orden del guion |
+| Ensayo manual | [Colección REST](pruebas/backend-v1.postman_collection.json) y [guion Postman](05_guion_sustentacion_postman.md) | Reutilizar **Analizar imagen** y **Consultar resultado** cambiando el JWT o el archivo según el guion |
 
 Los archivos de auditoría de ejemplo usan identidades sintéticas. La muestra de AUTH conserva un registro de la fase previa; la de STEGO corresponde a la última ejecución del conjunto. Los comandos reproducen los casos con bases temporales. Las instrucciones de instalación del entorno están en la [guía de ejecución](../README.md#pruebas-reproducibles).
+
+Para repetir también las 22 solicitudes de prueba y 34 aserciones de Postman, instalar Postman CLI y ejecutar desde `App`:
+
+```powershell
+ms-stego/.venv/Scripts/python.exe tests/run.py --postman
+```
+
+El ejecutor prepara un proyecto temporal, guarda `postman-coleccion.txt` y luego ejecuta T01–T12. Si existe la copia YAML de `postman/collections`, también prueba su flujo de login, análisis y consulta. Usa la CA local y mantiene la verificación TLS. Los resultados del caso de prueba pueden cambiar de UUID y hora al repetirlo.
 
 ## Trazabilidad de escenarios
 

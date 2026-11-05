@@ -1,0 +1,29 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/users/{{user_id}}"
+  method: PATCH
+  headers:
+    Authorization: Bearer {{access_token}}
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "nombres": "Pedro Alejandro"
+      }
+response:
+  statusCode: 500
+  statusText: Internal Server Error
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "statusCode": 500,
+        "message": "Error interno",
+        "timestamp": "2026-11-04T12:00:00.000Z",
+        "path": "/api/v1/users/{id}",
+        "requestId": "ejemplo-auth"
+      }
+order: 10000

@@ -1,0 +1,23 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/auth/me"
+  method: GET
+  headers:
+    Authorization: Bearer {{access_token}}
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "userId": "87d1619e-af9e-4f57-84f2-f93f04690812",
+        "username": "amendoza",
+        "email": "analista@example.com",
+        "roles": [
+          "ANALYST"
+        ]
+      }
+order: 1000

@@ -1,0 +1,18 @@
+$kind: http-example
+request:
+  url: "{{stego_url}}/api/v1/steganography/results/{{analysis_id}}"
+  method: GET
+  headers:
+    Authorization: Bearer {{analyst_token}}
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "detail": "Se requiere un JWT Bearer"
+      }
+order: 3000

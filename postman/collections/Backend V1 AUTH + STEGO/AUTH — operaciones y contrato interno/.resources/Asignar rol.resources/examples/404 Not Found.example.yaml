@@ -1,0 +1,30 @@
+$kind: http-example
+request:
+  url: "{{base_url}}/user-roles"
+  method: POST
+  headers:
+    Authorization: Bearer {{access_token}}
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "userId": "{{user_id}}",
+        "roleId": "{{role_id}}"
+      }
+response:
+  statusCode: 404
+  statusText: Not Found
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "statusCode": 404,
+        "message": "Entidad no encontrada",
+        "timestamp": "2026-11-04T12:00:00.000Z",
+        "path": "/api/v1/user-roles",
+        "requestId": "ejemplo-auth"
+      }
+order: 5000

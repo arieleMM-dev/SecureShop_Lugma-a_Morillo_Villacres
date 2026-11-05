@@ -90,6 +90,11 @@ def run():
   assert_status(client.get(stego+'/api/v1/steganography/results/'+identifier,headers={'Authorization':'Bearer '+cv}),403)
   assert_status(client.get(stego+'/api/v1/steganography/results/'+identifier,headers={'Authorization':'Bearer '+a}),200)
  record('T11 propiedad de resultados aplicada',ownership)
+ def invalid_result_id():
+  identifier=result_ids['hidden']
+  changed=identifier[:14]+'1'+identifier[15:]
+  assert_status(client.get(stego+'/api/v1/steganography/results/'+changed,headers={'Authorization':'Bearer '+n}),400)
+ record('UUID de otra versión rechazado sin reescribir el recurso',invalid_result_id)
  def revocation():
   h={'Authorization':'Bearer '+a};uid=analyst['user']['id']
   pair=ac.get('/api/v1/user-roles/user/'+uid,headers=h).json()[0]
