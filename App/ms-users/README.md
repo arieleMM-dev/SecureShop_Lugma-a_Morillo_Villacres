@@ -39,11 +39,11 @@ Para ejecución local sin contenedor AUTH: `docker compose up -d postgres`, `npm
 
 ## Documentación y pruebas
 
-- [Guía técnica, arquitectura, ER, matriz de permisos y contrato de STEGO](docs/AUTH_V2.md).
-- [OpenAPI AUTH](docs/openapi.json).
-- [Colección Postman](docs/auth-v2.postman_collection.json).
-- [Resultados de integración](docs/pruebas-auth-v2.txt).
-- [Verificación Compose](docs/verificacion-compose.json).
+- [JWT, RBAC, permisos y contrato interno](../docs/02_seguridad_contratos_y_metodo.md).
+- [OpenAPI AUTH](../docs/contratos/openapi-auth.json).
+- [Colección Postman](../docs/pruebas/backend-v1.postman_collection.json).
+- [Resultados de integración](../docs/pruebas/resultados/auth-funcionales-y-seguridad.txt).
+- [Verificación Compose](../docs/historico/verificacion-compose-auth-v2.json).
 
 ```sh
 npm run build

@@ -6,7 +6,7 @@ from app.detector import calculate
 ROOT=Path(__file__).resolve().parents[1]
 MESSAGE='Proyecto integrador: carga LSB real de prueba.'
 def generate(out=None):
- out=out or ROOT/'samples';out.mkdir(parents=True,exist_ok=True)
+ out=out or ROOT.parent/'docs/pruebas/muestras';out.mkdir(parents=True,exist_ok=True)
  y,x=np.indices((256,256));cover=np.stack([((x+j*29+2*y)%128)*2 for j in range(3)],axis=2).astype(np.uint8)
  header=b'STEGOv1!'+len(MESSAGE.encode()).to_bytes(4,'big')+MESSAGE.encode()
  payload=header+np.random.default_rng(4201).bytes(cover.size//8-len(header))

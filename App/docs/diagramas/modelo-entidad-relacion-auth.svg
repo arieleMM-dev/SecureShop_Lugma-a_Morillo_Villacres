@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-labelledby="t d">
+<title id="t">Modelo de identidad de AUTH</title><desc id="d">Usuarios y roles se relacionan muchos a muchos mediante user_roles. Cada asignación tiene dos claves foráneas y el par es único.</desc>
+<rect x="0" y="0" width="1200" height="470" rx="0" fill="#f5f8fc" stroke="#f5f8fc" stroke-width="1.5"/>
+<text x="42" y="54" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700" fill="#15243b">Modelo entidad–relación de AUTH</text>
+<text x="42" y="86" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="400" fill="#465b72">PostgreSQL  /  Asociación de usuarios y roles N:M</text>
+<rect x="42" y="120" width="292" height="270" rx="15" fill="#ffffff" stroke="#a6b9ca" stroke-width="1.5"/>
+<text x="64" y="160" font-family="Segoe UI, Arial, sans-serif" font-size="27" font-weight="700" fill="#226d9b">users</text>
+<text x="64" y="188" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#465b72">Identidades</text>
+<text x="64" y="225" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#15243b">id · PK UUID</text>
+<text x="64" y="258" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#15243b">username, email · únicos</text>
+<text x="64" y="291" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#15243b">password_hash</text>
+<text x="64" y="324" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#15243b">status, token_version</text>
+<text x="64" y="357" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#15243b">created_at, updated_at</text>
+<rect x="426" y="120" width="348" height="270" rx="15" fill="#ffffff" stroke="#a6b9ca" stroke-width="1.5"/>
+<text x="448" y="160" font-family="Segoe UI, Arial, sans-serif" font-size="27" font-weight="700" fill="#6044a2">user_roles</text>
+<text x="448" y="188" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#465b72">Asignaciones</text>
+<text x="448" y="225" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#15243b">id · PK UUID</text>
+<text x="448" y="258" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#15243b">user_id · FK → users.id</text>
+<text x="448" y="291" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#15243b">role_id · FK → roles.id</text>
+<text x="448" y="324" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#15243b">assigned_at, status, updated_at</text>
+<text x="448" y="357" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#15243b">UNIQUE(user_id, role_id)</text>
+<rect x="866" y="120" width="292" height="270" rx="15" fill="#ffffff" stroke="#a6b9ca" stroke-width="1.5"/>
+<text x="888" y="160" font-family="Segoe UI, Arial, sans-serif" font-size="27" font-weight="700" fill="#087d72">roles</text>
+<text x="888" y="188" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#465b72">Roles</text>
+<text x="888" y="225" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#15243b">id · PK UUID</text>
+<text x="888" y="258" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#15243b">name · único</text>
+<text x="888" y="291" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#15243b">description</text>
+<text x="888" y="324" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#15243b">status</text>
+<text x="888" y="357" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#15243b">created_at, updated_at</text>
+<polyline points="334,264 426,264" fill="none" stroke="#226d9b" stroke-width="2.5" stroke-linejoin="round"/>
+<polyline points="774,264 866,264" fill="none" stroke="#087d72" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="344" y="252" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#15243b">1</text>
+<text x="380" y="252" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#15243b">0..N</text>
+<text x="783" y="252" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#15243b">0..N</text>
+<text x="844" y="252" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#15243b">1</text>
+<text x="42" y="432" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="400" fill="#465b72">Cada asignación referencia un usuario y un rol. El par de claves foráneas no se puede repetir.</text>
+</svg>

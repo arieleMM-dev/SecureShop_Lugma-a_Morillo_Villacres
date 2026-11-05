@@ -1,0 +1,513 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "STEGO Backend V1",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceHealth"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/steganography/analyze": {
+      "post": {
+        "summary": "Upload",
+        "operationId": "upload_api_v1_steganography_analyze_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "JWT o sesión inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "No tiene permiso sobre la operación o el recurso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "AUTH devolvió una decisión no verificable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "AUTH, capacidad o procesamiento no disponibles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RecordedAnalysisError"
+                    }
+                  ],
+                  "title": "Response 503 Upload Api V1 Steganography Analyze Post"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Formulario inválido o PNG corrupto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RecordedAnalysisError"
+                    }
+                  ],
+                  "title": "Response 400 Upload Api V1 Steganography Analyze Post"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Carga o dimensiones excesivas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RecordedAnalysisError"
+                    }
+                  ],
+                  "title": "Response 413 Upload Api V1 Steganography Analyze Post"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Formato no admitido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RecordedAnalysisError"
+                    }
+                  ],
+                  "title": "Response 415 Upload Api V1 Steganography Analyze Post"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/steganography/results/{analysis_id}": {
+      "get": {
+        "summary": "Result",
+        "operationId": "result_api_v1_steganography_results__analysis_id__get",
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "JWT o sesión inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "No tiene permiso sobre la operación o el recurso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "AUTH devolvió una decisión no verificable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "AUTH no pudo proporcionar una decisión",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Identificador de análisis inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Análisis no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnalysisResult": {
+        "properties": {
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "sha256": {
+            "type": "string",
+            "title": "Sha256"
+          },
+          "technique": {
+            "type": "string",
+            "title": "Technique"
+          },
+          "indicators": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Indicators"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "limitations": {
+            "type": "string",
+            "title": "Limitations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "analysis_id",
+          "user_id",
+          "filename",
+          "sha256",
+          "technique",
+          "indicators",
+          "created_at",
+          "status",
+          "action",
+          "limitations"
+        ],
+        "title": "AnalysisResult"
+      },
+      "ApiError": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "ApiError"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "RecordedAnalysisError": {
+        "properties": {
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "sha256": {
+            "type": "string",
+            "title": "Sha256"
+          },
+          "technique": {
+            "type": "string",
+            "title": "Technique"
+          },
+          "indicators": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Indicators"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "limitations": {
+            "type": "string",
+            "title": "Limitations"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "analysis_id",
+          "user_id",
+          "filename",
+          "sha256",
+          "technique",
+          "indicators",
+          "created_at",
+          "status",
+          "action",
+          "limitations",
+          "detail"
+        ],
+        "title": "RecordedAnalysisError"
+      },
+      "ServiceHealth": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "service": {
+            "type": "string",
+            "title": "Service"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "service"
+        ],
+        "title": "ServiceHealth"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

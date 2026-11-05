@@ -48,9 +48,9 @@ Cuentas de desarrollo: `jperez` ADMIN, `amendoza` ANALYST, `mgomez` USER, `cvega
 ## Uso
 
 1. Solicitar `POST /api/v1/auth/login` a AUTH con JSON `{"identifier":"amendoza","password":"<SEED_PASSWORD local>"}`.
-2. Copiar el `accessToken` recibido. Enviar a STEGO `POST /api/v1/steganography/analyze` con `Authorization: Bearer <token>` y un formulario multipart con un único campo de archivo `file`. Usar las muestras de `ms-stego/samples/`.
+2. Copiar el `accessToken` recibido. Enviar a STEGO `POST /api/v1/steganography/analyze` con `Authorization: Bearer <token>` y un formulario multipart con un único campo de archivo `file`. Usar las muestras de `docs/pruebas/muestras/`.
 3. Consultar `GET /api/v1/steganography/results/<analysis_id>` con el mismo encabezado. ANALYST solo accede a sus resultados; ADMIN puede acceder a todos; USER no tiene permiso.
-4. Importar la [colección REST conjunta](docs/backend-v1.postman_collection.json) y configurar sus variables privadas. Añadir `ms-users/secrets/ca.crt` a los certificados confiables del cliente HTTPS. Seleccionar los PNG locales en las solicitudes multipart; no desactivar TLS.
+4. Importar la [colección REST conjunta](docs/pruebas/backend-v1.postman_collection.json) y configurar sus variables privadas. Añadir `ms-users/secrets/ca.crt` a los certificados confiables del cliente HTTPS. Seleccionar los PNG locales en las solicitudes multipart; no desactivar TLS.
 
 La autorización se obtiene de nuevo en cada operación. Cambiar roles o cerrar sesión en AUTH afecta a la siguiente solicitud aunque el JWT todavía no haya expirado.
 
@@ -80,18 +80,12 @@ ms-stego/.venv/Scripts/python.exe -m pytest -q ms-stego/tests -c ms-stego/pytest
 ms-stego/.venv/Scripts/python.exe tests/run.py
 ```
 
-En Linux/macOS sustituir el ejecutable por `ms-stego/.venv/bin/python`. El ejecutor crea un nombre de proyecto, puertos y volúmenes temporales, construye las imágenes, prepara identidades y ejecuta las pruebas reales; al terminar elimina exclusivamente los recursos de ese proyecto temporal. No usa ni elimina los volúmenes normales. Necesita Docker iniciado y la configuración preparada con el inicializador. Los registros JSON de prueba se regeneran en `ms-stego/docs/`.
+En Linux/macOS sustituir el ejecutable por `ms-stego/.venv/bin/python`. El ejecutor crea un nombre de proyecto, puertos y volúmenes temporales, construye las imágenes, prepara identidades y ejecuta las pruebas reales; al terminar elimina exclusivamente los recursos de ese proyecto temporal. No usa ni elimina los volúmenes normales. Necesita Docker iniciado y la configuración preparada con el inicializador. Los registros JSON de prueba se regeneran en `docs/pruebas/resultados/`.
 
 Para regenerar las muestras, desde `App/ms-stego`: `.venv/Scripts/python.exe -m scripts.generate_samples`. El generador comprueba la recuperación del mensaje insertado; se incluyen ejemplos con falso positivo y falso negativo. No es un corpus independiente de evaluación de precisión.
 
-Las pruebas previas de AUTH se conservan en su documentación. Las pruebas del conjunto cubren T01-T12 con ambos servicios reales; [mapa de evidencias](docs/PRUEBAS.md). Las casillas de presentación en clase continúan pendientes.
+Las pruebas previas de AUTH se conservan en su documentación. Las pruebas del conjunto cubren T01-T12 con ambos servicios reales; [mapa de evidencias](docs/04_pruebas_y_evidencias.md). Las casillas de presentación en clase continúan pendientes.
 
-## Documentación
+## Entregables
 
-- [Arquitectura, confianza y permisos](docs/ARQUITECTURA.md).
-- [Matriz de riesgos y relación con principios de seguridad](docs/RIESGOS.md).
-- [AUTH: inicio y documentación independiente](ms-users/README.md).
-- [STEGO: inicio, configuración, API y controles](ms-stego/README.md).
-- [Método, cálculos, parámetros y limitaciones](ms-stego/docs/METODOLOGIA.md).
-- OpenAPI: [AUTH](ms-users/docs/openapi.json) y [STEGO](ms-stego/docs/openapi.json).
-- [Resultados medidos](ms-stego/docs/resultados-ejecucion.json), [suite de integración](ms-stego/docs/pruebas-integracion.json) y [auditoría depurada](ms-stego/docs/auditoria-ejecucion.json).
+El [mapa de cumplimiento](docs/00_mapa_cumplimiento.md) relaciona la consigna con el código, la configuración y las evidencias. La documentación de entrega está reunida en [App/docs](docs/README.md). Cada servicio conserva su [guía AUTH](ms-users/README.md) o [guía STEGO](ms-stego/README.md) para ejecución independiente.

@@ -3,7 +3,8 @@ require('reflect-metadata');
 const fs = require('node:fs');
 const { NestFactory } = require('@nestjs/core');
 const { Module } = require('@nestjs/common');
-const { SwaggerModule, DocumentBuilder } = require('@nestjs/swagger');
+const path = require('node:path');
+const { createAuthOpenApi } = require('../dist/openapi.js');
 const { UsersController } = require('../dist/users/users.controller.js');
 const { RolesController } = require('../dist/roles/roles.controller.js');
 const {
@@ -53,20 +54,9 @@ Module({
     type: require('@nestjs/common').VersioningType.URI,
     defaultVersion: '1',
   });
-  const doc = SwaggerModule.createDocument(
-    app,
-    new DocumentBuilder()
-      .setTitle('AUTH Backend V1')
-      .setVersion('2.0')
-      .addBearerAuth()
-      .addApiKey(
-        { type: 'apiKey', in: 'header', name: 'X-Service-Token' },
-        'ServiceToken',
-      )
-      .build(),
-  );
-  fs.mkdirSync('docs', { recursive: true });
-  fs.writeFileSync('docs/openapi.json', JSON.stringify(doc, null, 2));
+  const output = path.resolve(__dirname, '../../docs/contratos/openapi-auth.json');
+  fs.mkdirSync(path.dirname(output), { recursive: true });
+  fs.writeFileSync(output, JSON.stringify(createAuthOpenApi(app), null, 2) + '\n');
   await app.close();
 })().catch(() => {
   process.exitCode = 1;

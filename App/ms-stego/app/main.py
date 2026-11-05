@@ -17,6 +17,36 @@ class AnalysisResult(BaseModel):
     analysis_id:str;user_id:str;filename:str;sha256:str;technique:str;indicators:dict
     created_at:str;status:str;action:str;limitations:str
 
+class ApiError(BaseModel):
+    detail: str
+
+
+class RecordedAnalysisError(AnalysisResult):
+    detail: str
+
+
+class ServiceHealth(BaseModel):
+    status: str
+    service: str
+
+
+def api_error(description):
+    return {'description': description, 'model': ApiError}
+
+
+AUTHORIZATION_ERRORS = {
+    401: api_error('JWT o sesión inválidos'),
+    403: api_error('No tiene permiso sobre la operación o el recurso'),
+    502: api_error('AUTH devolvió una decisión no verificable'),
+    503: api_error('AUTH no pudo proporcionar una decisión'),
+    500: api_error('Error interno'),
+}
+
+
+def upload_error(description):
+    return {'description': description, 'model': ApiError | RecordedAnalysisError}
+
+
 class Gate:
     def __init__(self,app,service):self.app=app;self.service=service
     async def __call__(self,scope,receive,send):
@@ -92,9 +122,29 @@ def create_app(settings=None):
             await app.state.security.client.aclose()
     app=FastAPI(title='STEGO Backend V1',version='1.0.0',lifespan=lifespan)
     app.add_middleware(Gate,service=app)
-    @app.get('/health')
+    @app.get('/health', response_model=ServiceHealth)
     async def health():return {'status':'ok','service':'stego'}
-    @app.post('/api/v1/steganography/analyze',response_model=AnalysisResult,responses={400:{'description':'PNG corrupto'},401:{'description':'Token o sesión inválidos'},403:{'description':'Sin permiso'},413:{'description':'Carga o dimensiones excesivas'},415:{'description':'Formato no admitido'},503:{'description':'AUTH o procesamiento no disponibles'}},openapi_extra={'security':[{'BearerAuth':[]}],'requestBody':{'required':True,'content':{'multipart/form-data':{'schema':{'type':'object','required':['file'],'properties':{'file':{'type':'string','format':'binary'}}}}}}})
+    @app.post(
+        '/api/v1/steganography/analyze',
+        response_model=AnalysisResult,
+        responses={
+            **AUTHORIZATION_ERRORS,
+            400: upload_error('Formulario inválido o PNG corrupto'),
+            413: upload_error('Carga o dimensiones excesivas'),
+            415: upload_error('Formato no admitido'),
+            503: upload_error('AUTH, capacidad o procesamiento no disponibles'),
+        },
+        openapi_extra={
+            'security': [{'BearerAuth': []}],
+            'requestBody': {
+                'required': True,
+                'content': {'multipart/form-data': {'schema': {
+                    'type': 'object', 'required': ['file'],
+                    'properties': {'file': {'type': 'string', 'format': 'binary'}},
+                }}},
+            },
+        },
+    )
     async def upload(request:Request):
         settings=app.state.settings
         try:await asyncio.wait_for(app.state.jobs.acquire(),timeout=0.01)
@@ -132,7 +182,16 @@ def create_app(settings=None):
         finally:
             if path is not None:path.unlink(missing_ok=True)
             app.state.jobs.release()
-    @app.get('/api/v1/steganography/results/{analysis_id}',response_model=AnalysisResult,responses={401:{'description':'No autenticado'},403:{'description':'Sin permiso sobre el recurso'},404:{'description':'No encontrado'},503:{'description':'AUTH no disponible'}},openapi_extra={'security':[{'BearerAuth':[]}]})
+    @app.get(
+        '/api/v1/steganography/results/{analysis_id}',
+        response_model=AnalysisResult,
+        responses={
+            **AUTHORIZATION_ERRORS,
+            400: api_error('Identificador de análisis inválido'),
+            404: api_error('Análisis no encontrado'),
+        },
+        openapi_extra={'security': [{'BearerAuth': []}]},
+    )
     async def result(analysis_id:str,request:Request):
         row=request.state.record
         if row is None:raise HTTPException(404,'Análisis no encontrado')

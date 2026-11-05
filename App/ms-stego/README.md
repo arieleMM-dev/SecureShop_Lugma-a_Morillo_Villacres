@@ -12,7 +12,7 @@ node scripts/compose.cjs stop stego
 node scripts/compose.cjs start stego
 ```
 
-Puede iniciarse aunque AUTH esté detenido: `/health` responde, pero las operaciones protegidas fallan sin autorización. Para analizar se necesita AUTH operativo y usuarios/roles persistidos. Swagger: `http://localhost:8000/docs`; [OpenAPI exportado](docs/openapi.json).
+Puede iniciarse aunque AUTH esté detenido: `/health` responde, pero las operaciones protegidas fallan sin autorización. Para analizar se necesita AUTH operativo y usuarios/roles persistidos. Swagger: `http://localhost:8000/docs`; [OpenAPI exportado](../docs/contratos/openapi-stego.json).
 
 Ejecución nativa Linux: preparar un entorno Python 3.12, instalar `requirements.txt` y la biblioteca del sistema `libseccomp2`; desde esta carpeta ejecutar `uvicorn app.main:app --host 127.0.0.1 --port 8000`. Ajustar `.env` con rutas de CA y pública existentes. El trabajador requiere Linux por defecto. Windows sirve para las pruebas del cálculo y API simulada; los análisis aislados reales se ejecutan en el contenedor Linux. No deshabilitar `REQUIRE_SANDBOX` para la entrega.
 
@@ -63,9 +63,9 @@ El trabajador recibe una ruta UUID interna y parámetros numéricos; su entorno 
 
 ## Método, muestras y pruebas
 
-- [Procedimiento y límites estadísticos](docs/METODOLOGIA.md).
-- [Muestras y verdad de construcción](samples/manifest.json): control, carga LSB alta, baja carga, ruido sin mensaje y muestra pequeña.
-- [Pruebas del conjunto y su reproducción](../docs/PRUEBAS.md).
-- [Riesgos y controles](../docs/RIESGOS.md).
+- [Procedimiento y límites estadísticos](../docs/02_seguridad_contratos_y_metodo.md#método-de-análisis-esteganográfico).
+- [Muestras y verdad de construcción](../docs/pruebas/muestras/manifest.json): control, carga LSB alta, baja carga, ruido sin mensaje y muestra pequeña.
+- [Pruebas del conjunto y su reproducción](../docs/04_pruebas_y_evidencias.md).
+- [Riesgos y controles](../docs/03_matriz_riesgos.md).
 
 Un indicio no demuestra un mensaje oculto. Las muestras incluyen explícitamente un falso positivo y un falso negativo. No se declara precisión de producción ni cobertura frente a técnicas diferentes de la equiprobabilidad LSB.

@@ -1,4 +1,4 @@
-> Documento histórico del taller del 29/10/2026. La versión vigente para el parcial es [AUTH V2](../docs/AUTH_V2.md); sus roles, claves, contratos y despliegue sustituyen los del taller donde difieran.
+> Documento histórico del taller del 29/10/2026. La versión vigente para el parcial es [AUTH V2](../../docs/historico/AUTH_V2.md); sus roles, claves, contratos y despliegue sustituyen los del taller donde difieran.
 
 # Integración de los cuatro documentos del profesor
 

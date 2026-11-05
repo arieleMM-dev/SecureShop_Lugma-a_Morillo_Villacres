@@ -2,7 +2,7 @@
   "info": {
     "name": "Backend V1 AUTH + STEGO",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Importar CA local en el cliente. Variables privadas vacías. Ejecutar login y elegir PNG local en multipart. Para T07/T08 seguir docs/PRUEBAS.md y la suite automática; no ejecutar CRUD destructivo sobre datos reales."
+    "description": "Colección para ejecutar solicitudes individuales siguiendo el guion en App/docs. Configurar la CA y las variables locales. Las solicitudes de caída y revocación requieren preparar el estado indicado en el guion."
   },
   "variable": [
     {
@@ -59,6 +59,14 @@
     },
     {
       "key": "user_token",
+      "value": ""
+    },
+    {
+      "key": "other_analyst_token",
+      "value": ""
+    },
+    {
+      "key": "demo_token",
       "value": ""
     }
   ],
@@ -170,7 +178,7 @@
                 "value": "Bearer {{access_token}}"
               }
             ],
-            "url": "{{base_url}}/users?page=1&limit=20"
+            "url": "{{base_url}}/users"
           }
         },
         {
@@ -537,7 +545,7 @@
                   "key": "file",
                   "type": "file",
                   "src": [],
-                  "description": "Seleccionar PNG local de ms-stego/samples"
+                  "description": "Seleccionar PNG local de docs/pruebas/muestras"
                 }
               ]
             }
@@ -573,7 +581,7 @@
                   "key": "file",
                   "type": "file",
                   "src": [],
-                  "description": "Seleccionar PNG local de ms-stego/samples"
+                  "description": "Seleccionar PNG local de docs/pruebas/muestras"
                 }
               ]
             }
@@ -603,7 +611,7 @@
                   "key": "file",
                   "type": "file",
                   "src": [],
-                  "description": "Seleccionar PNG local de ms-stego/samples"
+                  "description": "Seleccionar PNG local de docs/pruebas/muestras"
                 }
               ]
             }
@@ -663,6 +671,221 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('HTTP 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Salud STEGO",
+          "request": {
+            "method": "GET",
+            "url": "{{stego_url}}/health"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login usuario nuevo de demostración",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"demoparcial\",\n  \"password\": \"{{new_user_password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) pm.collectionVariables.set('demo_token', pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login segundo ANALYST (cvega)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"cvega\",\n  \"password\": \"{{seed_password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) pm.collectionVariables.set('other_analyst_token', pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Carga con JWT inválido",
+          "request": {
+            "method": "POST",
+            "url": "{{stego_url}}/api/v1/steganography/analyze",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer token-invalido"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Seleccionar PNG local de docs/pruebas/muestras"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Carga después de retirar ANALYST",
+          "request": {
+            "method": "POST",
+            "url": "{{stego_url}}/api/v1/steganography/analyze",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{analyst_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Seleccionar PNG local de docs/pruebas/muestras"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Carga con AUTH detenido",
+          "request": {
+            "method": "POST",
+            "url": "{{stego_url}}/api/v1/steganography/analyze",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{analyst_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Seleccionar PNG local de docs/pruebas/muestras"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 503', () => pm.response.to.have.status(503));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultar resultado ajeno como otro ANALYST",
+          "request": {
+            "method": "GET",
+            "url": "{{stego_url}}/api/v1/steganography/results/{{analysis_id}}",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{other_analyst_token}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', () => pm.response.to.have.status(403));"
                 ]
               }
             }

@@ -1,0 +1,2341 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "operationId": "AppController_health_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/api/v1/users": {
+      "post": {
+        "operationId": "UsersController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflicto de unicidad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      },
+      "get": {
+        "operationId": "UsersController_findAll_v1",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/v1/users/cedula/{cedula}": {
+      "get": {
+        "operationId": "UsersController_findByCedula_v1",
+        "parameters": [
+          {
+            "name": "cedula",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entidad no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "operationId": "UsersController_findOne_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entidad no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      },
+      "patch": {
+        "operationId": "UsersController_update_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entidad no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflicto de unicidad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      },
+      "delete": {
+        "operationId": "UsersController_remove_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Operación exitosa sin contenido"
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entidad no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/v1/roles": {
+      "post": {
+        "operationId": "RolesController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflicto de unicidad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Roles"
+        ]
+      },
+      "get": {
+        "operationId": "RolesController_findAll_v1",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolesPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Roles"
+        ]
+      }
+    },
+    "/api/v1/roles/{id}": {
+      "get": {
+        "operationId": "RolesController_findOne_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entidad no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Roles"
+        ]
+      },
+      "patch": {
+        "operationId": "RolesController_update_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entidad no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflicto de unicidad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Roles"
+        ]
+      },
+      "delete": {
+        "operationId": "RolesController_remove_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Operación exitosa sin contenido"
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entidad no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Roles"
+        ]
+      }
+    },
+    "/api/v1/user-roles": {
+      "post": {
+        "operationId": "UserRolesController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Assignment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entidad no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflicto de unicidad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "UserRoles"
+        ]
+      }
+    },
+    "/api/v1/user-roles/user/{userId}": {
+      "get": {
+        "operationId": "UserRolesController_findByUser_v1",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Assignment"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entidad no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "UserRoles"
+        ]
+      }
+    },
+    "/api/v1/user-roles/{id}": {
+      "delete": {
+        "operationId": "UserRolesController_remove_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Operación exitosa sin contenido"
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La sesión no tiene permiso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entidad no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "UserRoles"
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "AuthController_login_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JWT RS256 y perfil de login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "accessToken",
+                    "tokenType",
+                    "expiresIn",
+                    "user"
+                  ],
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    },
+                    "tokenType": {
+                      "type": "string",
+                      "enum": [
+                        "Bearer"
+                      ]
+                    },
+                    "expiresIn": {
+                      "type": "integer"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "roles": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/profile": {
+      "get": {
+        "operationId": "AuthController_me[0]_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Usuario activo y roles vigentes desde PostgreSQL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "roles": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "operationId": "AuthController_me[1]_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Usuario activo y roles vigentes desde PostgreSQL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "roles": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout_v1",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Operación exitosa sin contenido"
+          },
+          "401": {
+            "description": "Credenciales, sesión o identidad de servicio inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/internal/authorization/check": {
+      "post": {
+        "operationId": "InternalAuthorizationController_check",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckAuthorizationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Decisión actual, allowed true o false; no constituye permiso permanente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "subject_id",
+                    "action",
+                    "resource_id",
+                    "allowed",
+                    "reason"
+                  ],
+                  "properties": {
+                    "subject_id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "action": {
+                      "type": "string",
+                      "enum": [
+                        "steganography.analyze",
+                        "steganography.results.read"
+                      ]
+                    },
+                    "resource_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "nullable": true
+                    },
+                    "allowed": {
+                      "type": "boolean"
+                    },
+                    "reason": {
+                      "type": "string",
+                      "enum": [
+                        "active_role_grants_permission",
+                        "active_role_does_not_grant_permission"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Entrada o parámetro inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Servicio, canal o token de usuario inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Límite de solicitudes excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ServiceToken": []
+          }
+        ],
+        "summary": "Decisión vigente para STEGO sobre TLS; resource_owner_id procede del registro del análisis en STEGO",
+        "tags": [
+          "Autorización interna"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "AUTH Backend V1",
+    "description": "",
+    "version": "2.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      },
+      "ServiceToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Service-Token"
+      }
+    },
+    "schemas": {
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "cedula": {
+            "type": "string",
+            "pattern": "^[0-9]{10}$"
+          },
+          "nombres": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "apellidos": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "fechaNacimiento": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "username": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 50,
+            "pattern": "^[a-z0-9._-]+$"
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 150,
+            "format": "email"
+          },
+          "telefono": {
+            "type": "string",
+            "pattern": "^[0-9]{10}$"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 128
+          },
+          "estado": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "cedula",
+          "nombres",
+          "apellidos",
+          "fechaNacimiento",
+          "username",
+          "email",
+          "telefono",
+          "password"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cedula": {
+            "type": "string"
+          },
+          "nombres": {
+            "type": "string"
+          },
+          "apellidos": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "telefono": {
+            "type": "string"
+          },
+          "fechaNacimiento": {
+            "type": "string",
+            "format": "date"
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "tokenVersion": {
+            "type": "integer"
+          },
+          "version": {
+            "type": "integer"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaActualizacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaEliminacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "userRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Assignment"
+            }
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rol": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaActualizacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaEliminacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "UserRole": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "roleId": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "fechaAsignacion": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "number"
+          },
+          "fechaActualizacion": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "roleId",
+          "user",
+          "role",
+          "fechaAsignacion",
+          "estado",
+          "version",
+          "fechaActualizacion"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "nombres": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "apellidos": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "fechaNacimiento": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "username": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 50,
+            "pattern": "^[a-z0-9._-]+$"
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 150,
+            "format": "email"
+          },
+          "telefono": {
+            "type": "string",
+            "pattern": "^[0-9]{10}$"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 128
+          },
+          "estado": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateRoleDto": {
+        "type": "object",
+        "properties": {
+          "rol": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 50,
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 500
+          },
+          "estado": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "rol",
+          "description"
+        ]
+      },
+      "UpdateRoleDto": {
+        "type": "object",
+        "properties": {
+          "rol": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 50,
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 500
+          },
+          "estado": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateUserRoleDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "roleId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "userId",
+          "roleId"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 150
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "identifier",
+          "password"
+        ]
+      },
+      "CheckAuthorizationDto": {
+        "type": "object",
+        "properties": {
+          "subject_token": {
+            "type": "string",
+            "maxLength": 8192
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "steganography.analyze",
+              "steganography.results.read"
+            ]
+          },
+          "resource_id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "resource_owner_id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "required": [
+          "subject_token",
+          "action"
+        ],
+        "description": "Para results.read ambos UUID son obligatorios. En analyze pueden omitirse."
+      },
+      "AuthError": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer"
+          },
+          "message": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "path": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "statusCode",
+          "message",
+          "timestamp",
+          "path"
+        ]
+      },
+      "Health": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Assignment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "roleId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fechaAsignacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer"
+          },
+          "fechaActualizacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          }
+        }
+      },
+      "UsersPage": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "total": {
+                "type": "integer"
+              },
+              "totalPages": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "RolesPage": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "total": {
+                "type": "integer"
+              },
+              "totalPages": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

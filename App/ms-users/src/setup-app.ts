@@ -6,7 +6,8 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
+import { createAuthOpenApi } from './openapi.js';
 import { AllExceptionsFilter } from './common/filters/all-exceptions/all-exceptions.filter.js';
 
 export function setupApp(app: NestExpressApplication): void {
@@ -83,18 +84,7 @@ export function setupApp(app: NestExpressApplication): void {
    * Swagger solo en desarrollo.
    */
   if (nodeEnv !== 'production') {
-    const swaggerConfig = new DocumentBuilder()
-      .setTitle('User Service')
-      .setDescription('Microservicio de usuarios y roles')
-      .setVersion('1.0')
-      .addBearerAuth()
-      .addApiKey(
-        { type: 'apiKey', in: 'header', name: 'X-Service-Token' },
-        'ServiceToken',
-      )
-      .build();
-
-    const document = SwaggerModule.createDocument(app, swaggerConfig);
+    const document = createAuthOpenApi(app);
     SwaggerModule.setup('docs', app, document);
   }
 }

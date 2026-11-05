@@ -22,7 +22,7 @@ def sql_count():
  return int(compose('exec','-T','stego','python','-c',"import sqlite3; print(sqlite3.connect('/data/stego.sqlite3').execute('SELECT COUNT(*) FROM analyses').fetchone()[0])").strip())
 
 def run():
- env=dotenv_values(ROOT/'ms-users/.env');samples=ROOT/'ms-stego/samples';evidence=[]
+ env=dotenv_values(ROOT/'ms-users/.env');samples=ROOT/'docs/pruebas/muestras';evidence=[]
  auth=f'https://127.0.0.1:{service_port("auth",3443)}';stego=f'http://127.0.0.1:{service_port("stego",8000)}'
  client=httpx.Client(timeout=25,trust_env=False);ac=httpx.Client(base_url=auth,verify=str(ROOT/'ms-users/secrets/ca.crt'),timeout=10,trust_env=False)
  def record(label,fn):
@@ -73,7 +73,7 @@ def run():
   assert original['user_id']==analyst['user']['id'];result_ids.update(original=original['analysis_id'],hidden=hidden['analysis_id'])
   extra={name:assert_status(upload(n,name),200).json() for name in ['oculta_baja_carga.png','ruido_sin_mensaje.png','pequena.png']}
   assert extra['oculta_baja_carga.png']['status']=='sin_indicios' and extra['ruido_sin_mensaje.png']['status']=='sospechoso' and extra['pequena.png']['status']=='no_concluyente'
-  (ROOT/'ms-stego/docs/resultados-ejecucion.json').write_text(json.dumps({'original':original,'lsb':hidden,**extra},ensure_ascii=False,indent=2),encoding='utf-8')
+  (ROOT/'docs/pruebas/resultados/stego-analisis-muestras.json').write_text(json.dumps({'original':original,'lsb':hidden,**extra},ensure_ascii=False,indent=2),encoding='utf-8')
  record('T09 análisis real de control y carga LSB con sandbox',analyze_pair)
  def bad_files():
   assert_status(upload(n,data=b'not-png'),415)
@@ -112,7 +112,7 @@ def run():
   raw=compose('exec','-T','stego','python','-c',"import sqlite3,json; d=sqlite3.connect('/data/stego.sqlite3'); d.row_factory=sqlite3.Row; print(json.dumps([dict(x) for x in d.execute('SELECT * FROM audit_events ORDER BY id')]))")
   rows=json.loads(raw);assert any(x['status_code']==503 for x in rows) and any(x['analysis_id'] for x in rows)
   for secret in [a,n,u,env['SEED_PASSWORD'],env['STEGO_SERVICE_TOKEN']]:assert secret not in raw
-  (ROOT/'ms-stego/docs/auditoria-ejecucion.json').write_text(json.dumps(rows,indent=2),encoding='utf-8')
+  (ROOT/'docs/pruebas/resultados/stego-auditoria.json').write_text(json.dumps(rows,indent=2),encoding='utf-8')
  record('T12 auditoría depurada de accesos y análisis',audit)
  # Reiniciar STEGO conserva SQLite, resultados y archivos en el volumen.
  def persistence():
@@ -125,6 +125,6 @@ def run():
   assert_status(client.get(stego+'/api/v1/steganography/results/'+result_ids['hidden'],headers={'Authorization':'Bearer '+a}),200)
  record('Persistencia tras reiniciar STEGO',persistence)
  manifest={'executed_at':datetime.now(timezone.utc).isoformat(),'tests':evidence,'passed':len(evidence),'failed':0,'environment':'Dos imágenes y procesos reales, PostgreSQL 18 y SQLite separados; puertos y volúmenes temporales','real_stego':True}
- (ROOT/'ms-stego/docs/pruebas-integracion.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
+ (ROOT/'docs/pruebas/resultados/integracion-auth-stego.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
  client.close();ac.close()
 if __name__=='__main__':run()

@@ -1,6 +1,6 @@
 # AUTH V2 - Backend del primer parcial
 
-> Informe histórico de la fase AUTH V2. STEGO y la integración ya están implementados en la fase posterior: consultar la [arquitectura actual](../../docs/ARQUITECTURA.md) y sus [pruebas reales](../../docs/PRUEBAS.md). Las referencias a STEGO pendiente describen únicamente el estado de aquella fase.
+> Informe histórico de la fase AUTH V2. STEGO y la integración ya están implementados en la fase posterior: consultar la [arquitectura actual](../01_arquitectura_y_modelo_datos.md) y sus [pruebas reales](../04_pruebas_y_evidencias.md). Las referencias a STEGO pendiente describen únicamente el estado de aquella fase.
 
 Fecha local de implementación: 02/11/2026. Este documento describe el microservicio AUTH implementado en App/ms-users. STEGO todavía no está implementado. El contrato interno se probó con un cliente HTTPS de pruebas; no se presenta esa prueba como una integración con STEGO real.
 
@@ -138,7 +138,7 @@ Base de desarrollo: http://localhost:3001/api/v1; base HTTPS: https://localhost:
 
 Validación estricta y rechazo de propiedades inesperadas; UUID válidos; paginación de 1 a 100 registros. Los nombres de roles se normalizan a mayúsculas; un CHECK de PostgreSQL impide guardar variantes en minúsculas por SQL directo. Username/email se normalizan a minúsculas.
 
-`openapi.json` documenta AUTH. Swagger de desarrollo está en /docs y /docs-json. `auth-v2.postman_collection.json` contiene las solicitudes; configurar los valores locales de seed_password y service_token, y confiar en secrets/ca.crt en el cliente REST. No desactivar la comprobación de certificados. No exportar ni compartir los valores locales de esas variables o del access_token.
+El [contrato OpenAPI vigente](../contratos/openapi-auth.json) documenta AUTH. Swagger de desarrollo está en /docs y /docs-json. La [colección conjunta](../pruebas/backend-v1.postman_collection.json) contiene las solicitudes; configurar los valores locales de seed_password y service_token, y confiar en secrets/ca.crt en el cliente REST. No desactivar la comprobación de certificados. No exportar ni compartir los valores locales de esas variables o del access_token.
 
 ## Auditoría
 
